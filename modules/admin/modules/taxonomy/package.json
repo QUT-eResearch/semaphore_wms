@@ -1,0 +1,16 @@
+{
+    "name":"taxonomy",
+    "version":"0.1.0",
+    "label":"Tags",
+    "description":"This module provides taxonomy system using hierachical tags.",
+    "author":"Alvin Sebastian <a.sebastian@qut.edu.au>",
+    "homepage":"",
+    "repository":{
+        "type":"git",
+        "url":"git://github.com/QUT-IFE-eResearch/semaphore.git"
+    },
+    "dependencies": {
+    },
+    "submodules": [],
+    "main": "index.js"
+}

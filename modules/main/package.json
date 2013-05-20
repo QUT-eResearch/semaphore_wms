@@ -1,0 +1,14 @@
+{
+    "name":"main",
+    "version":"0.1.0",
+    "label":"Web App Root",
+    "description":"The main starting point (root) of the web application.",
+    "author":"Alvin Sebastian <a.sebastian@qut.edu.au>",
+    "homepage":"",
+    "repository":{
+        "type":"git",
+        "url":"git://github.com/QUT-IFE-eResearch/semaphore.git"
+    },
+    "route":"/",
+    "main": "index.js"
+}

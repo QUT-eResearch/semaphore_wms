@@ -1,0 +1,41 @@
+<% 
+var subtitle = title ? ' - ' + title : ''
+%>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Semaphore<%=subtitle %></title>
+    <%- _.scripts()%>
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header>
+      <a href="/">
+      <h1>SEMAPHORE</h1>
+      </a>
+      <h2>experiment sharing and automation portal</h2>
+    </header>
+    <% if (_user) { %>
+    <div>
+      <p>Logged in as: <%=_user.username%> - <a href="<%=_.url.action('logout')%>">logout</a></p>
+    </div>
+    <% } %>
+    <div id="mainMenu">
+      <ul id="nav">
+        <li><a href="<%=_.url.action('experiment.ui')%>">Online Experiment</a></li>
+        <li><a href="/api">Modelling APIs</a></li>
+        <li><a href="/kepler">Kepler Samples</a></li>
+        <li><a href="/excel">Other Tools</a></li>
+      </ul>
+    </div>
+    <div id="container">
+      <%- _.partial('body') %>
+    </div>
+    <footer>
+      <p>Supported By: </p>
+      <a id="logoQut" class="logo" href="http://www.qut.edu.au" title="Link to QUT home page">QUT</a>
+      <a id="logoAnds" class="logo" href="http://www.ands.org.au" title="Link to QUT home page">ANDS</a>
+    </footer>
+  </body>
+</html>

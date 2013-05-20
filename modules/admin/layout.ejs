@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Semaphore Admin - <%=title%></title>
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+    <link rel="stylesheet" href="<%=_.url.action('static')%>/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>SEMAPHORE - ADMINISTRATION MODULE</h1>
+      <h2>experiment sharing and automation portal</h1>
+    </header>
+    <div>
+    <% if (_user) { %>
+      <p>Logged in as: <%=_user.username%> - <a href="<%=_.url.action('logout')%>">Logout</a></p>
+    <% } else { %>
+      <p>Not logged in. <a href="<%=_.url.action('loginForm')%>">Login</a> here.</p>
+    <% } %>
+    </div>
+    <%- _.partial('menu') %>
+    <div id="container">
+      <%- _.partial('body') %>
+    </div>
+    <footer>
+      <p>Supported By: </p>
+      <a id="logoQut" class="logo" href="http://www.qut.edu.au" title="Link to QUT home page">QUT</a>
+      <a id="logoAnds" class="logo" href="http://www.ands.org.au" title="Link to QUT home page">ANDS</a>
+    </footer>
+  </body>
+</html>

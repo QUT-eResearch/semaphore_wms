@@ -1,0 +1,9 @@
+#actionMenu  li {
+  display: inline;
+  list-style-type: none;
+  padding-right: 20px;
+}
+
+.mainView {
+  margin: 0 50px;
+}

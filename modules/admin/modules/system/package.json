@@ -1,0 +1,20 @@
+{
+    "name":"system",
+    "version":"0.1.0",
+    "label":"System",
+    "description":"System management module. This module provide module management and basic administrator login. The user interface is provided in conjuction with the admin module.",
+    "author":"Alvin Sebastian <a.sebastian@qut.edu.au>",
+    "homepage":"",
+    "repository":{
+        "type":"git",
+        "url":"git://github.com/QUT-IFE-eResearch/semaphore.git"
+    },
+    "dependencies": {
+    },
+    "submodules": [],
+    "roles": {
+        "backend":"admin",
+        "frontend":"main"
+    },
+    "main": "index.js"
+}

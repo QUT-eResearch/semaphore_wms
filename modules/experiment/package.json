@@ -1,0 +1,14 @@
+{
+    "name":"experiment",
+    "version":"0.1.0",
+    "label":"Experiment Manager",
+    "description":"Creates, manages and runs experiments.",
+    "author":"Alvin Sebastian <a.sebastian@qut.edu.au>",
+    "homepage":"",
+    "repository":{
+        "type":"git",
+        "url":"git://github.com/QUT-IFE-eResearch/semaphore.git"
+    },
+    "route":"exps",
+    "main": "index.js"
+}

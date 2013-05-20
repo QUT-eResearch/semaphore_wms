@@ -1,0 +1,17 @@
+{
+    "name":"admin",
+    "version":"0.1.0",
+    "label":"Administration",
+    "description":"Administration interface module. This module provide starting point and user interface to manage the backend-side of the web application.",
+    "author":"Alvin Sebastian <a.sebastian@qut.edu.au>",
+    "homepage":"",
+    "repository":{
+        "type":"git",
+        "url":"git://github.com/QUT-IFE-eResearch/semaphore.git"
+    },
+    "dependencies": {
+    },
+    "submodules": [],
+    "route":"/admin",
+    "main": "index.js"
+}

@@ -1,0 +1,128 @@
+body {
+  padding: 0;
+  margin: 0;
+  font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+a {
+  color: #00B7FF;
+}
+header {
+  color: #f16100;
+  background-color: #f2fd6f;
+  padding: 20px 50px;
+}
+header a {
+  color: #f16100;
+  text-decoration: none;
+}
+header h1 {
+  color: #f16100;
+  font-size: 42px;
+  margin: 0 0 10px;
+  border-bottom: 1px solid black;
+}
+header h2 {
+  color: #000;
+  font-size: 16px;
+  margin: 0;
+}
+/** FOOTER **/
+footer {
+  overflow: hidden;
+  padding: 10px 50px;
+  background-color: #eec;
+}
+footer * {
+  float: left;
+}
+footer .logo {
+  display: block;
+  outline: none;
+  text-indent: -9999px;
+  padding: 0;
+  margin-left: 50px;
+}
+#logoQut {
+  background: url(/images/logo_qut_ife.png) no-repeat 0 0;
+  width: 300px;
+  height: 60px;
+}
+#logoAnds {
+  background: url(/images/logo_ands.png) no-repeat 0 0;
+  width: 200px;
+  height: 60px;
+}
+#mainMenu {
+  background-color: #eec;
+  padding: 0px 50px;
+  height: 30px;
+  font-size: 13pt;
+  font-weight: bold;
+}
+#nav,
+.nav,
+#nav .nav li {
+  margin: 0px;
+  padding: 0px;
+}
+#nav li {
+  float: left;
+  display: inline;
+  cursor: pointer;
+  list-style: none;
+  padding: 0px 10px 0px 10px;
+  position: relative;
+  line-height: 30px;
+}
+#nav li ul.first {
+  left: -1px;
+  top: 100%;
+}
+li,
+li a {
+  color: #e11;
+  text-decoration: none;
+}
+#nav .nav li {
+  width: 100%;
+  text-indent: 10px;
+  line-height: 30px;
+  margin-right: 10px;
+  background-color: #eec;
+}
+#nav li a {
+  display: block;
+  width: inherit;
+  height: inherit;
+}
+ul.nav {
+  display: none;
+}
+#nav li:hover > a,
+#nav li:hover {
+  color: #eec;
+  background-color: #e11;
+}
+li:hover > .nav {
+  display: block;
+  position: absolute;
+  width: 200px;
+  top: 0px;
+  left: 50%;
+  z-index: 1000;
+}
+li:hover {
+  position: relative;
+  z-index: 2000;
+}
+#container {
+  margin: 0px 50px;
+  padding: 20px 0;
+}
+label {
+  width: 150px;
+  height: 24px;
+  line-height: 24px;
+  display: block;
+  float: left;
+}
