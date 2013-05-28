@@ -4,21 +4,24 @@
     <title>Semaphore Admin - <%=title%></title>
     <link rel="stylesheet" href="/stylesheets/app.css" />
     <link rel="stylesheet" href="<%=_.url.action('static')%>/style.css" />
+    <%- _.styles()%>
+    <%- _.scripts()%>
   </head>
   <body>
+  <div id="screenContainer">
     <header>
       <h1>SEMAPHORE - ADMINISTRATION MODULE</h1>
       <h2>experiment sharing and automation portal</h1>
+      <div>
+      <% if (_user) { %>
+        <p>Logged in as: <%=_user.username%> - <a href="<%=_.url.action('logout')%>">Logout</a></p>
+        <% } else { %>
+        <p>Not logged in. <a href="<%=_.url.action('loginForm')%>">Login</a> here.</p>
+      <% } %>
+      </div>
+      <%- _.partial('menu') %>
     </header>
-    <div>
-    <% if (_user) { %>
-      <p>Logged in as: <%=_user.username%> - <a href="<%=_.url.action('logout')%>">Logout</a></p>
-    <% } else { %>
-      <p>Not logged in. <a href="<%=_.url.action('loginForm')%>">Login</a> here.</p>
-    <% } %>
-    </div>
-    <%- _.partial('menu') %>
-    <div id="container">
+    <div id="content">
       <%- _.partial('body') %>
     </div>
     <footer>
@@ -26,5 +29,6 @@
       <a id="logoQut" class="logo" href="http://www.qut.edu.au" title="Link to QUT home page">QUT</a>
       <a id="logoAnds" class="logo" href="http://www.ands.org.au" title="Link to QUT home page">ANDS</a>
     </footer>
+  </div>
   </body>
 </html>

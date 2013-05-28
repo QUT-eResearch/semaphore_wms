@@ -1,22 +1,25 @@
 @paddingLeftRight: 50px;
 
-html {
-}
-
-body {
-  padding: 0;
-  margin: 0;
-  font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
+html, body {
+  margin:0;
+  padding:0;
+  height:100%;
+  font:12px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
 }
 
+div#pageContainer {
+	/* position:relative;  needed for footer positioning*/
+	/* margin:0 auto; center, not in IE5 */
+}
+
 header {
   color: rgb(241, 97, 0);
   background-color: rgb(242, 253, 111);
-  padding: 20px @paddingLeftRight;
+  padding: 20px @paddingLeftRight 0;
 }
 header a {
   color: rgb(241, 97, 0);
@@ -31,7 +34,7 @@ header h1 {
 header h2 {
   color: #000;
   font-size: 16px;
-  margin: 0;
+  margin: 0 0 10px;
 }
 
 /** FOOTER **/
@@ -67,34 +70,30 @@ footer .logo {
 
 #mainMenu {
   background-color: #eec;
-  padding: 0px @paddingLeftRight;
   height: 30px;
   font-size: 13pt;
   font-weight: bold;
 }
 
-#nav, .nav, #nav .nav li { margin:0px; padding:0px; }
-#nav li {float:left; display:inline; cursor:pointer; list-style:none; padding:0px 10px 0px 10px; position:relative; line-height:30px; }
-#nav li ul.first {left:-1px; top:100%;}
+/* Pure CSS nested dropdown menu*/
+ul.nested-nav, ul.nested-nav li { margin:0px; padding:0px; }
+ul.nested-nav li {float:left; display:inline; cursor:pointer; list-style:none; padding:0px 10px 0px 10px; position:relative; line-height:30px; }
+ul.nested-nav.nested-nav-root>li:hover>ul.nested-nav {left:-1px; top:100%;}
 
-li, li a {color:#e11; text-decoration:none;}
-#nav .nav li { width:100%; text-indent:10px; line-height:30px; margin-right:10px; background-color:#eec;}
-#nav li a {display:block; width:inherit; height:inherit;}
+ul.nested-nav li, ul.nested-nav li>a {color:#e11; text-decoration:none;}
+ul.nested-nav li>a {display:block; width:inherit; height:inherit;}
+ul.nested-nav ul.nested-nav li { width:100%; text-indent:10px; line-height:30px; margin-right:10px; background-color:#eec;}
 
-ul.nav { display:none; }
-#nav li:hover > a, #nav li:hover { color:#eec; background-color:#e11; }
-li:hover > .nav { display:block; position:absolute; width:200px; top:0px; left:50%; z-index:1000; } 
-li:hover { position:relative; z-index:2000; } 
+.nested-nav-root ul.nested-nav { display:none; }
+ul.nested-nav li:hover > a, ul.nested-nav li:hover { color:#eec !important; background-color:#e11 !important; }
+ul.nested-nav li:hover > ul.nested-nav { display:block; position:absolute; width:200px; top:0px; left:50%; z-index:1000; } 
+ul.nested-nav li:hover { position:relative; z-index:2000; } 
 
-#container {
-  margin: 0px @paddingLeftRight;
-  padding: 20px 0;
+
+#content {
+  padding: 20px @paddingLeftRight;
 }
 
 label {
-  width: 150px;
-  height: 24px;
-  line-height: 24px;
   display: block;
-  float: left;  
 }

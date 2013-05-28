@@ -1,0 +1,71 @@
+html, body {  
+  margin:0;
+  height:100%;
+}
+
+.ie {
+  position:relative;
+}
+
+.table-layout {
+	display: table;
+  border-collapse: collapse;
+  width: 100%;
+	height: 100%;
+/*
+  -moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+  min-height:100%;
+  overflow: auto;*/
+}
+.ie.table-layout, .ie .table-layout {
+  display: block;
+  position:relative;
+  height:auto;
+/*  
+  height:100%;
+	min-height:100%;  real browsers
+*/
+}
+
+.table-layout>.table-layout-row {
+  display: table-row;
+	height: 1px;
+  width: 100%;
+  /*overflow: auto;*/
+  position: relative;
+}
+.ie.table-layout>.table-layout-row, 
+.ie .table-layout>.table-layout-row {
+  display: block;
+  height: auto;
+}
+
+.table-layout>.table-layout-row.expand {
+	height: auto;
+}
+
+.table-layout>.table-layout-col, 
+.table-layout>.table-layout-row>.table-layout-col {
+	display: table-cell;
+	height: auto;
+	width: 1px;
+  position: relative;
+}
+
+.ie .table-layout>.table-layout-col, 
+.ie .table-layout>.table-layout-row>.table-layout-col,
+.ie.table-layout>.table-layout-col, 
+.ie.table-layout>.table-layout-row>.table-layout-col
+{
+  display: block;
+  width:auto;
+  float:left;
+  height:100%;
+}
+
+.table-layout-col.expand {
+	width: auto;
+}
+

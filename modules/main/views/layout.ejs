@@ -5,37 +5,57 @@ var subtitle = title ? ' - ' + title : ''
 <html>
   <head>
     <title>Semaphore<%=subtitle %></title>
-    <%- _.scripts()%>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/table-layout.css">
     <link rel="stylesheet" href="/stylesheets/app.css" />
     <link rel="stylesheet" href="/static/style.css" />
+    <%- _.styles()%>
+    <!--[if lt IE 9]>  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script> <![endif]-->	
+    <!--[if gte IE 8]> <script type="text/javascript" src="/stylesheets/table-layout-ie8.js"></script> <![endif]-->
+    <!--[if lt IE 8]>  <script type="text/javascript" src="/stylesheets/table-layout-ie.js"></script> <![endif]-->
+    <%- _.scripts()%>
   </head>
+  
+  <!--[if lt IE 8]><body class="ie"><![endif]-->
+  <!--[if gte IE 8]><!-->
   <body>
-    <header>
-      <a href="/">
-      <h1>SEMAPHORE</h1>
-      </a>
-      <h2>experiment sharing and automation portal</h2>
-    </header>
-    <% if (_user) { %>
-    <div>
-      <p>Logged in as: <%=_user.username%> - <a href="<%=_.url.action('logout')%>">logout</a></p>
+  <!--<![endif]-->
+  <div id="pageContainer" class="table-layout">
+    <div class="table-layout-row">
+      <header>
+        <a href="/">
+        <h1>SEMAPHORE</h1>
+        </a>
+        <h2>experiment sharing and automation portal</h2>
+        <% if (_user) { %>
+        <div>
+          <p>Logged in as: <%=_user.username%> - <a href="<%=_.url.action('logout')%>">logout</a></p>
+        </div>
+        <% } %>
+        <div id="mainMenu">
+          <ul class="nested-nav nested-nav-root">
+            <li><a href="<%=_.url.action('experiment.ui')%>">Online Experiment</a></li>
+            <li><a href="/api">Modelling APIs</a></li>
+            <li><a href="/kepler">Kepler Samples</a></li>
+            <li><a href="/excel">Other Tools</a></li>
+          </ul>
+        </div>
+      </header>
+    </div> <!--.table-layout-row-->
+    <div class="table-layout-row expand">
+      <div id="content" class="table-layout-col expand">
+        <%- _.partial('body') %>
+      </div>
     </div>
-    <% } %>
-    <div id="mainMenu">
-      <ul id="nav">
-        <li><a href="<%=_.url.action('experiment.ui')%>">Online Experiment</a></li>
-        <li><a href="/api">Modelling APIs</a></li>
-        <li><a href="/kepler">Kepler Samples</a></li>
-        <li><a href="/excel">Other Tools</a></li>
-      </ul>
-    </div>
-    <div id="container">
-      <%- _.partial('body') %>
-    </div>
-    <footer>
-      <p>Supported By: </p>
-      <a id="logoQut" class="logo" href="http://www.qut.edu.au" title="Link to QUT home page">QUT</a>
-      <a id="logoAnds" class="logo" href="http://www.ands.org.au" title="Link to QUT home page">ANDS</a>
-    </footer>
+    <div class="table-layout-row">
+      <footer>
+        <p>Supported By: </p>
+        <a id="logoQut" class="logo" href="http://www.qut.edu.au" title="Link to QUT home page">QUT</a>
+        <a id="logoAnds" class="logo" href="http://www.ands.org.au" title="Link to QUT home page">ANDS</a>
+      </footer>
+    </div> <!--.table-layout-row-->
+  </div> <!--.table-layout-->
   </body>
 </html>

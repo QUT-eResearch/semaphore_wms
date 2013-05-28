@@ -1,5 +1,5 @@
 
-module.exports = function(mod) {
+module.exports = exports = function(mod) {
   mod.meta('route', 'um');
   mod.meta('label', 'User Manager');
   //mod.addControllers('./controllers');
@@ -16,6 +16,35 @@ module.exports = function(mod) {
     manager.mount('get', '/usertest', dummyController); //absolute
     mod.mount('get', '/manual', dummyController); //relative
     mod.mount('get', '', 'index', index); //relative
+  });
+  
+  mod.installer(function() {
+    console.log('installer');
+    mod.model('user').findOne({isSuperuser:true}, function(err, docs) {
+      console.log('test');
+      console.log(docs);
+      if (docs) {
+        console.log('A superuser exists. Not adding a new superuser');
+        db.close();
+      } else {
+        mod.model('user').create(
+          {
+            username:'admin', 
+            fullname:'Administrator', 
+            password:'admin', 
+            isSuperuser:'true'
+          }, 
+          function(err) {
+            if (!err) console.log('Success creating a superuser.');
+            else console.log(err);
+          }
+        );
+      }
+    });
+  });
+  
+  mod.uninstaller(function() {
+    mod.model('user').collection.drop();
   });
 };
 

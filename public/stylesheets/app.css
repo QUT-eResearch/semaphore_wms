@@ -1,15 +1,23 @@
+html,
 body {
-  padding: 0;
   margin: 0;
+  padding: 0;
+  height: 100%;
   font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 a {
   color: #00B7FF;
 }
+div#pageContainer {
+  /* position:relative;  needed for footer positioning*/
+
+  /* margin:0 auto; center, not in IE5 */
+
+}
 header {
   color: #f16100;
   background-color: #f2fd6f;
-  padding: 20px 50px;
+  padding: 20px 50px 0;
 }
 header a {
   color: #f16100;
@@ -24,7 +32,7 @@ header h1 {
 header h2 {
   color: #000;
   font-size: 16px;
-  margin: 0;
+  margin: 0 0 10px;
 }
 /** FOOTER **/
 footer {
@@ -54,18 +62,17 @@ footer .logo {
 }
 #mainMenu {
   background-color: #eec;
-  padding: 0px 50px;
   height: 30px;
   font-size: 13pt;
   font-weight: bold;
 }
-#nav,
-.nav,
-#nav .nav li {
+/* Pure CSS nested dropdown menu*/
+ul.nested-nav,
+ul.nested-nav li {
   margin: 0px;
   padding: 0px;
 }
-#nav li {
+ul.nested-nav li {
   float: left;
   display: inline;
   cursor: pointer;
@@ -74,36 +81,36 @@ footer .logo {
   position: relative;
   line-height: 30px;
 }
-#nav li ul.first {
+ul.nested-nav.nested-nav-root > li:hover > ul.nested-nav {
   left: -1px;
   top: 100%;
 }
-li,
-li a {
+ul.nested-nav li,
+ul.nested-nav li > a {
   color: #e11;
   text-decoration: none;
 }
-#nav .nav li {
+ul.nested-nav li > a {
+  display: block;
+  width: inherit;
+  height: inherit;
+}
+ul.nested-nav ul.nested-nav li {
   width: 100%;
   text-indent: 10px;
   line-height: 30px;
   margin-right: 10px;
   background-color: #eec;
 }
-#nav li a {
-  display: block;
-  width: inherit;
-  height: inherit;
-}
-ul.nav {
+.nested-nav-root ul.nested-nav {
   display: none;
 }
-#nav li:hover > a,
-#nav li:hover {
-  color: #eec;
-  background-color: #e11;
+ul.nested-nav li:hover > a,
+ul.nested-nav li:hover {
+  color: #eec !important;
+  background-color: #e11 !important;
 }
-li:hover > .nav {
+ul.nested-nav li:hover > ul.nested-nav {
   display: block;
   position: absolute;
   width: 200px;
@@ -111,18 +118,13 @@ li:hover > .nav {
   left: 50%;
   z-index: 1000;
 }
-li:hover {
+ul.nested-nav li:hover {
   position: relative;
   z-index: 2000;
 }
-#container {
-  margin: 0px 50px;
-  padding: 20px 0;
+#content {
+  padding: 20px 50px;
 }
 label {
-  width: 150px;
-  height: 24px;
-  line-height: 24px;
   display: block;
-  float: left;
 }

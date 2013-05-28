@@ -1,7 +1,322 @@
-<% _.script('https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js') %>
-<div ng-app>
-<label>Name:</label>
-<input type="text" ng-model="yourName" placeholder="Enter a name here">
-<hr>
-<h1>Hello {{yourName}}!</h1>
+<% _.style(_.url.action('static')+'/experiment.css') %>
+<% _.script('//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js') %>
+<% _.script('//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js') %>
+<% _.script('http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js') %>
+
+
+<div data-ng-app="experiment">
+
+<div class="navbar navbar-static-top">
+  <div class="navbar-inner">
+    <a class="brand" href="#">Manage Experiment</a>
+  </div>
 </div>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+      <div class="pa-sidebar well well-small" data-ui-view="viewExps"></div>
+    </div>
+    <div class="span10" data-ui-view="viewExpDetail"></div>
+  </div>
+</div>
+<hr>
+<pre>
+  $state = {{$state.current.name}}
+  $stateParams = {{$stateParams}}
+</pre>
+
+
+<script type="text/ng-template" id="experiments.html">
+  <h4>My Experiments</h4>
+  <ul class="nav nav-list">
+    <li class="active" data-ng-class="{ active: $state.includes('experiments.list') }"><a href="#/experiments"><strong>All Experiments</strong></a></li>
+    <li ng-repeat="experiment in experiments" ng-class="{ active: $state.includes('experiments.detail') && $stateParams.experiment_id == experiment.id  }">
+      <a href="#/experiments/{{experiment.id}}" >{{experiment.title}}</a>
+    </li>
+  </ul>
+  <hr/>
+  <button class="btn btn-primary" data-ng-click="newExp()"><i class="icon-white icon-plus-sign"></i>New Experiment</button>
+</script>
+
+<script type="text/ng-template" id="experiments.all.html">
+  <h2>All Experiments </h2>
+  <ul>
+    <li ng-repeat="experiment in experiments">
+      <a href="#/experiments/{{experiment.id}}">{{experiment.title}}</a>
+    </li>
+  </ul>    
+</script>
+
+
+</div> <!--data-ng-app=experiment-->
+
+<script>
+function findById(a, id) {
+  for (var i=0; i<a.length; i++) {
+    if (a[i].id == id) return a[i];
+  }
+}
+function findByAttr(attr,a, id) {
+  for (var i=0; i<a.length; i++) {
+    if (a[i][attr] == id) return a[i];
+  }
+}
+
+function findMultipleById(a, id) {
+var temp = Array();
+  for (var i=0; i<a.length; i++) {
+    if (a[i].id == id) temp.push( a[i] );
+  }
+  return temp;
+}
+
+angular.module('experiment', ['ui.state'])
+  .config(['$stateProvider', '$routeProvider', '$urlRouterProvider',
+    function ($stateProvider, $routeProvider, $urlRouterProvider, $locationProvider) {
+      $stateProvider
+        .state('experiments', {
+          url: '',
+          views: { 'viewExps': {templateUrl: 'experiments.html'} },
+          //abstract: true,
+          templateUrl: 'experiments.html',
+          controller:
+            [        '$scope', '$state',
+            function ($scope,   $state) {
+				$scope.experiments = [
+					{id:'1', title:'Experiment 1', abstract_text:'abstract1 <br/> Lorem ipsum dolor sit amet', keywords: 'science, bio', geo_cov: 'Brisbane', temp_cov: '2010-2012'},
+					{id:'2', title:'Experiment 2', abstract_text:'abstract 2  <br/> Lorem ipsum dolor sit amet', keywords: 'science, bio', geo_cov: 'Goldcoast', temp_cov: '2008' }
+					];
+				 $scope.inputfiles = 
+					[
+					{id:'1', filename:'test1.csv', filepath: 'http://1/test1.csv'},
+					{id:'1', filename:'test2.csv', filepath: 'http://1/test1.csv'},
+					{id:'1', filename:'test3.csv', filepath: 'http://1/test1.csv'}
+					];
+				 $scope.runs = [
+				//	{id:'1', date:'20-05-2013 11:08:00', status: 'Running', name: 'Run 1'},
+				//	{id:'1', date:'20-05-2014 15:08:00', status: 'Done', name: 'Run 2'}
+					];
+					
+            }],
+        })
+        .state('experiments.list', {
+          // parent: 'contacts',
+          url: '',
+          templateUrl: 'experiments.all.html',
+        })
+		.state('experiments.new', {
+          // parent: 'contacts',
+          url: '/new',
+          templateUrl: 'experiment.form.html',
+		    controller:
+            [        '$scope', '$state',
+            function ($scope,   $state, $stateParams) {
+				var self = this;
+				$scope.myForm = {};
+				$scope.save = function() 
+				{
+					$scope.experiments.push({title:$scope.experiment.title, abstract_text:$scope.experiment.abstract_text, id:$scope.experiments.length+1});
+						$state.transitionTo('experiments.list', $stateParams);
+				};
+				$scope.isClean = function() {
+					return angular.equals(self.original, $scope.myForm);
+				}			
+            }],
+			
+        })
+        .state('experiments.detail', {
+          // parent: 'contacts',
+          url: '/{experiment_id}',
+          resolve: {
+            something:
+              [        '$timeout', '$stateParams',
+              function ($timeout,   $stateParams) {
+                return $timeout(function () { return "Asynchronously resolved data (" + $stateParams.experiment_id + ")" }, 10);
+              }],
+          },
+          views: {
+            '': {
+              templateUrl: 'experiment.detail.html',
+              controller:
+                [        '$scope', '$stateParams', 'something', '$state',
+                function ($scope,   $stateParams,   something, $state) {
+                  $scope.something = something;
+                  $scope.experiment = findById($scope.experiments, $stateParams.experiment_id);
+				  $scope.inputfiles = findMultipleById($scope.inputfiles, $stateParams.experiment_id);
+				  $scope.runs = findMultipleById($scope.runs, $stateParams.experiment_id);
+				  $state.transitionTo('experiments.detail.inputfiles', $stateParams);
+				  $scope.run = function () 
+				  {
+					$scope.runs.push({name:'Run ' + ($scope.runs.length+1 ), status: 'Running', date: new Date() , id:$stateParams.experiment_id});
+				  }
+                }],
+            },
+			'files': { //gak jalan kok yaaaa
+              templateUrl: 'inputfiles.html',
+              controller:
+                [        '$scope', '$stateParams', '$state',
+                function ($scope,   $stateParams,   $state) {
+                 	$scope.inputfiles = findMultipleById($scope.inputfiles, $stateParams.experiment_id);
+					 
+                }],
+				}
+			,
+          /* 'hint@': {
+              template: 'This is contacts.detail populating the view "hint@"',
+            },
+            'menu': {
+              templateProvider:
+                [ '$stateParams',
+                function ($stateParams){
+                  // This is just to demonstrate that $stateParams injection works for templateProvider
+                  // $stateParams are the parameters for the new state we're transitioning to, even
+                  // though the global '$stateParams' has not been updated yet.
+                  return '<hr><small class="muted">Contact ID: ' + $stateParams.contactId + '</small>';
+                }],
+            },
+			*/
+          },
+        })
+        .state('experiments.edit', {
+          // parent: 'contacts.detail',
+           url: '/edit/{experiment_id}',
+          views: {
+            '': {
+              templateUrl: 'experiment.form.html',
+              controller:
+                [        '$scope', '$stateParams', '$state',
+                function ($scope,   $stateParams,   $state) {
+                  $scope.experiment = findById($scope.experiments, $stateParams.experiment_id);
+				  var self = this;
+							
+					$scope.save = function() {
+							if($scope.experiment.id !='')
+								{
+									for(i in $scope.experiments)
+									{
+										if($scope.experiments[i].id == $scope.experiment.id)
+										{
+											 $scope.experiments[i] = angular.extend($scope.experiments[i],$scope.experiment);
+										}
+									}
+								}
+									 $state.transitionTo('experiments.detail', $stateParams);
+						};
+						
+					$scope.isClean = function() {
+						return angular.equals(self.original, $scope.experiment);
+					}
+					
+					$scope.destroy = function() {
+						for(i in $scope.experiments)
+									{
+										if($scope.experiments[i].id == $scope.experiment.id)
+										{
+											 $scope.experiments.splice(i, 1);
+										}
+									}
+					
+							 $state.transitionTo('experiments.list', $stateParams);
+					
+					}
+                 
+                }],
+            },
+            'hint@': {
+           //   template: 'Overriding the view "hint@"',
+            },
+          },
+        })
+		.state('experiments.detail.upload_input', {
+           parent: 'experiments.detail',
+          url: '/upload_input',
+		  views: {
+            'files': {
+              templateUrl: 'inputfiles.form.html',
+              controller:
+                [        '$scope', '$stateParams', '$state',
+                function ($scope,   $stateParams,   $state) {
+                 	var self = this;
+					$scope.inputfile = {};
+					$scope.save = function() 
+					{
+						$scope.input_files.push({filename:$scope.inputfile.filename,  id:$stateParams.experiment_id});
+							$state.transitionTo('experiments.list', $stateParams);
+					};
+					$scope.isClean = function() {
+						return angular.equals(self.original, $scope.myForm);
+					}			
+                }],
+				}
+			}
+        })
+		.state('experiments.detail.edit_input', {
+           parent: 'experiments.detail',
+          url: '/edit_input/{filename}',
+		  views: {
+            'files': {
+              templateUrl: 'inputfiles.form.html',
+              controller:
+                [        '$scope', '$stateParams', '$state',
+                function ($scope,   $stateParams,   $state) {
+                 	var self = this;
+					$scope.inputfile = findByAttr('filename',$scope.inputfiles, $stateParams.filename);
+				  			
+					$scope.save = function() {
+							if($scope.inputfile.filename !='')
+								{
+									for(i in $scope.inputfiles)
+									{
+										if($scope.inputfiles[i].filename == $scope.inputfiles.filename)
+										{
+											 $scope.inputfiles[i] = angular.extend($scope.inputfiles[i],$scope.inputfile);
+										}
+									}
+								}
+									 $state.transitionTo('experiments.detail.inputfiles', $stateParams);
+						};
+						
+					$scope.isClean = function() {
+						return angular.equals(self.original, $scope.inputfiles);
+					}
+					
+					$scope.destroy = function() {
+						for(i in $scope.inputfiles)
+									{
+										if($scope.inputfiles[i].id == $scope.inputfiles.id)
+										{
+											 $scope.inputfiles.splice(i, 1);
+										}
+									}
+					
+							 $state.transitionTo('experiments.detail.inputfiles', $stateParams);
+					
+					}		
+                }],
+				}
+			}
+        })
+		.state('experiments.detail.inputfiles', {
+           parent: 'experiments.detail',
+          url: '/inputfiles',
+		  views: {
+            'files': {
+              templateUrl: 'inputfiles.html',
+              controller:
+                [        '$scope', '$stateParams', '$state',
+                function ($scope,   $stateParams,   $state) {
+                 	$scope.inputfiles = findMultipleById($scope.inputfiles, $stateParams.experiment_id);
+					 
+                }],
+				}
+			}
+        })
+		
+    }])
+    .run(
+      [        '$rootScope', '$state', '$stateParams',
+      function ($rootScope,   $state,   $stateParams) {
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+      }]);
+</script>

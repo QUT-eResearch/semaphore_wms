@@ -7,6 +7,9 @@ c.appVersion = '0.0.1';
 c.port = process.env.SEMAPHORE_PORT || '3001';
 c.host = process.env.SEMAPHORE_HOST || 'localhost';
 c.behindProxy = true;
+c.cookieSecret = 'semaphore_wms:aZ1sFokuX9bi65d38';
+c.viewEngine = 'ejs';
+c.viewEngines = { 'ejs':'ejs-locals', 'html':'hogan-express' };
 
 c.pathBaseData = 'C:\\temp';
 c.pathTempUpload = path.join(c.pathBaseData, 'upload');
@@ -17,6 +20,11 @@ c.mongodb = {};
 c.mongodb.host = process.env.SEMAPHORE_MONGODB_HOST || 'localhost';
 c.mongodb.port = process.env.SEMAPHORE_MONGODB_PORT || 27017;
 c.mongodb.database = 'semaphore_cms';
+
+c.paths = {};
+//c.paths.modules = 'modules'; //default is modules
+c.paths.views = 'views';
+c.paths.statics = ['public'];
 
 c.homeModule = 'main';
 c.adminModule = 'admin';

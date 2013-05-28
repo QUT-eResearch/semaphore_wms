@@ -12,5 +12,5 @@ c.ui_route = '.ui';
 c.ui_format = 'html';
 
 c.list_filter = function(req) {
-  return {owner: req.sessions.user.id};
+  return {owner: req.session.user.id};
 };

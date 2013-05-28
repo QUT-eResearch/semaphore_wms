@@ -1,14 +1,14 @@
 <div id="mainMenu">
-  <ul id="nav">
+  <ul class="nested-nav nested-nav-root">
   <% mainMenu.forEach(function(mi, i){ %>
     <li>
     <a href="<%=mi.link%>"><%=mi.label%></a>
     <% if (mi.menu && mi.menu.length > 0) { %>
-      <ul class="nav first">
+      <ul class="nested-nav">
       <% mi.menu.forEach(function(mi2){ %>
         <li>
           <a href="<%=mi2.link%>"><%=mi2.label%></a>
-          <ul class="nav">
+          <ul class="nested-nav">
             <li>New</li>
             <li>List</li>
           </ul>
