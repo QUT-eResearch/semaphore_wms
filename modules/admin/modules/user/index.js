@@ -13,38 +13,18 @@ module.exports = exports = function(mod) {
   };
   
   mod.init(function(manager){
-    manager.mount('get', '/usertest', dummyController); //absolute
+    var dummyUser = mod.meta('dummySessionUser');
+    //absolute
+    if (dummyUser) mod.mount('all', '*', {route:'/'}, function (req, res, next){
+      if (req.session.user) next();
+      else mod.model('user').authenticate(dummyUser.username, dummyUser.password, function(user){
+        res.locals._user = req.session.user = user;
+        //console.log('user found');
+        next();
+      });
+    }); 
     mod.mount('get', '/manual', dummyController); //relative
     mod.mount('get', '', 'index', index); //relative
-  });
-  
-  mod.installer(function() {
-    console.log('installer');
-    mod.model('user').findOne({isSuperuser:true}, function(err, docs) {
-      console.log('test');
-      console.log(docs);
-      if (docs) {
-        console.log('A superuser exists. Not adding a new superuser');
-        db.close();
-      } else {
-        mod.model('user').create(
-          {
-            username:'admin', 
-            fullname:'Administrator', 
-            password:'admin', 
-            isSuperuser:'true'
-          }, 
-          function(err) {
-            if (!err) console.log('Success creating a superuser.');
-            else console.log(err);
-          }
-        );
-      }
-    });
-  });
-  
-  mod.uninstaller(function() {
-    mod.model('user').collection.drop();
   });
 };
 

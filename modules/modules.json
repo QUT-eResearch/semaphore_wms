@@ -2,7 +2,7 @@
   "admin": 3,
   "admin.system": 3,
   "admin.taxonomy": 3,
-  "admin.user": 1,
+  "admin.user": 3,
   "auth": 3,
   "experiment": 3,
   "main": 3,

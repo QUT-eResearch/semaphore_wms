@@ -12,21 +12,57 @@
 
 div.container {
 }
-div#experiment_details {
-  width: 400px;
-  float: left;
-}
-div#input_files {
-}
-div#runs {
-}
+
 div.right_side{
   width: 50%;
   float: right;
 }
 
-
-
 .container-fluid {
-  padding-top: 10px;
+  padding: 10px 0;
+}
+
+h5 {
+  margin: 0 0 5px;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 10px;
+}
+#panelInputFiles select {
+  font-size: 12px;
+  padding: 2px 0;
+  margin: 0;
+  height: auto;
+  width:auto;
+}
+
+#panelInputFiles table td {
+  word-break: break-word;
+}
+
+#selectedInputFiles {
+  margin-top: 10px;
+}
+#selectedInputFiles ul {
+  max-height: 200px;
+  overflow: auto;
+}
+#panelAddInput form {
+  margin: 10px 0;
+}
+#panelAddInput input[type="url"] {
+  width: 90%;
+}
+#panelRun form fieldset {
+  border: 2px groove threedface;
+  padding: 5px;
+  border-radius: 4px;
+}
+#panelRun form fieldset legend{
+  width: auto;
+  border: 0;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: normal;
+  margin: 0 10px;
+  padding: 0 10px;
 }

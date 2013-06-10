@@ -30,8 +30,8 @@ var subtitle = title ? ' - ' + title : ''
         </a>
         <h2>experiment sharing and automation portal</h2>
         <% if (_user) { %>
-        <div>
-          <p>Logged in as: <%=_user.username%> - <a href="<%=_.url.action('logout')%>">logout</a></p>
+        <div class="user-info">
+          <p>Logged in as: <%=_user.username%> - <a href="<%=_.url.action('auth.logout')%>">logout</a></p>
         </div>
         <% } %>
         <div id="mainMenu">

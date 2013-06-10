@@ -9,6 +9,7 @@ html, body {
 
 a {
   color: #00B7FF;
+  cursor: pointer;
 }
 
 div#pageContainer {
@@ -19,7 +20,7 @@ div#pageContainer {
 header {
   color: rgb(241, 97, 0);
   background-color: rgb(242, 253, 111);
-  padding: 20px @paddingLeftRight 0;
+  padding: 10px @paddingLeftRight 0;
 }
 header a {
   color: rgb(241, 97, 0);
@@ -28,13 +29,16 @@ header a {
 header h1 {
   color: rgb(241, 97, 0);
   font-size: 42px;
-  margin: 0 0 10px;
+  margin: 0;
+  padding-bottom: 10px;
   border-bottom: 1px solid black;
 }
 header h2 {
   color: #000;
   font-size: 16px;
-  margin: 0 0 10px;
+  margin: 0;
+  line-height: 32px;
+  /*margin: 0 0 10px;*/
 }
 
 /** FOOTER **/
@@ -96,4 +100,9 @@ ul.nested-nav li:hover { position:relative; z-index:2000; }
 
 label {
   display: block;
+}
+
+div.user-info {
+  float: right;
+  margin: 5px 5px 0;
 }

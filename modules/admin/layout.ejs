@@ -14,7 +14,7 @@
       <h2>experiment sharing and automation portal</h1>
       <div>
       <% if (_user) { %>
-        <p>Logged in as: <%=_user.username%> - <a href="<%=_.url.action('logout')%>">Logout</a></p>
+        <p>Logged in as: <%=_user.username%> - <a href="<%=_.url.action('auth.logout')%>">Logout</a></p>
         <% } else { %>
         <p>Not logged in. <a href="<%=_.url.action('loginForm')%>">Login</a> here.</p>
       <% } %>

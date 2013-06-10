@@ -7,6 +7,7 @@ body {
 }
 a {
   color: #00B7FF;
+  cursor: pointer;
 }
 div#pageContainer {
   /* position:relative;  needed for footer positioning*/
@@ -17,7 +18,7 @@ div#pageContainer {
 header {
   color: #f16100;
   background-color: #f2fd6f;
-  padding: 20px 50px 0;
+  padding: 10px 50px 0;
 }
 header a {
   color: #f16100;
@@ -26,13 +27,17 @@ header a {
 header h1 {
   color: #f16100;
   font-size: 42px;
-  margin: 0 0 10px;
+  margin: 0;
+  padding-bottom: 10px;
   border-bottom: 1px solid black;
 }
 header h2 {
   color: #000;
   font-size: 16px;
-  margin: 0 0 10px;
+  margin: 0;
+  line-height: 32px;
+  /*margin: 0 0 10px;*/
+
 }
 /** FOOTER **/
 footer {
@@ -127,4 +132,8 @@ ul.nested-nav li:hover {
 }
 label {
   display: block;
+}
+div.user-info {
+  float: right;
+  margin: 5px 5px 0;
 }

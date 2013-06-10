@@ -1,6 +1,6 @@
 var mongoose = require('mongoose'), ObjectId = mongoose.Schema.Types.ObjectId;
 
-var workflowSchema = new mongoose.Schema({
+var schema = new mongoose.Schema({
   name: { type: String, unique: true, required: true },
   owner: { type: ObjectId, ref: 'user'},
   desc: { type: String, multiline:true },
@@ -9,4 +9,7 @@ var workflowSchema = new mongoose.Schema({
   access: { }
 });
 
-module.exports = mongoose.model('workflow', workflowSchema, 'workflow');
+schema.methods._label = function() { return this.name; };
+schema.statics._labelFields = 'name';
+
+module.exports = mongoose.model('workflow', schema, 'workflow');

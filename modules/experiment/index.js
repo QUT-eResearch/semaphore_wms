@@ -12,9 +12,11 @@ module.exports = function(mod) {
 };
 
 function init(mod, manager) {
-  console.log(mod.controllers);
+  //console.log('experiment init');
+  //console.log(mod.controllers);
   mod.mountController(mod.controller());
   var backendName = mod.meta('route');
-  mod.mountController(mod.controller('backend'), {name:backendName, interface:'backend'});
+  mod.mountController(mod.controller('bWorkflows'), {name:backendName+'/wf', interface:'backend'});
+  mod.mountController(mod.controller('bExperiments'), {name:backendName+'/exps', interface:'backend'});
   mod.mountControllers(false);
 }
