@@ -1,0 +1,12 @@
+<div>
+  <dl>
+    <dt>Unique Identifier:</dt>
+    <dd><%=record._id%></dd>
+  </dl>
+<% fields.forEach(function(f) { %>
+  <dl>
+    <dt><%=_.labeler.get(f.name, ['field'])%>:</dt>
+    <dd><%-_.field(f, record[f.name], {view:'show'})%></dd>
+  </dl>
+<% }) %>
+</div>
