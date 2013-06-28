@@ -1,4 +1,8 @@
-@paddingLeftRight: 50px;
+@paddingLeftRight: 30px;
+@mainMenuHeight: 60px;
+@mainMenuItemWidth: 200px;
+@mainMenuMinWidth: (@mainMenuItemWidth * 4 + 100);
+@import url(http://fonts.googleapis.com/css?family=Pontano+Sans);
 
 html, body {
   margin:0;
@@ -8,7 +12,8 @@ html, body {
 }
 
 a {
-  color: #00B7FF;
+  /*color: #00B7FF;
+  color: rgb(97,160,161);*/
   cursor: pointer;
 }
 
@@ -18,34 +23,20 @@ div#pageContainer {
 }
 
 header {
-  color: rgb(241, 97, 0);
-  background-color: rgb(242, 253, 111);
-  padding: 10px @paddingLeftRight 0;
-}
-header a {
-  color: rgb(241, 97, 0);
-  text-decoration: none;
-}
-header h1 {
-  color: rgb(241, 97, 0);
-  font-size: 42px;
-  margin: 0;
-  padding-bottom: 10px;
-  border-bottom: 1px solid black;
-}
-header h2 {
   color: #000;
-  font-size: 16px;
-  margin: 0;
-  line-height: 32px;
-  /*margin: 0 0 10px;*/
+  background-color: #fff;
+  padding: 30px @paddingLeftRight 15px;
 }
-
+header > div {
+  margin-top: 15px;
+}
 /** FOOTER **/
 footer {
   overflow: hidden;
-  padding: 10px @paddingLeftRight;
-  background-color: #eec;
+  padding: 15px @paddingLeftRight;
+  border-top: 3px solid #eee;
+  font-family: 'Pontano Sans', sans-serif;
+  font-size: 13pt;
 }
 
 footer * {
@@ -57,52 +48,65 @@ footer .logo {
   outline: none;
   text-indent: -9999px;
   padding: 0;
-  margin-left: 50px;
+  margin-left: 30px;
 }
 
 #logoQut {
-  background: url(/images/logo_qut_ife.png) no-repeat 0 0;
+  background: url(/images/logo_qut_ife.jpg) no-repeat 0 0;
   width: 300px;
   height: 60px;
 }
 
 #logoAnds {
   background: url(/images/logo_ands.png) no-repeat 0 0;
-  width: 200px;
+  width: 150px;
   height: 60px;
 }
 
+#logoAceas {
+  background: url(/images/logo_aceas.jpg) no-repeat 0 0;
+  width: 175px;
+  height: 65px;
+}
+
 #mainMenu {
-  background-color: #eec;
-  height: 30px;
   font-size: 13pt;
-  font-weight: bold;
+  font-family: 'Pontano Sans', sans-serif;
+  padding-left: @paddingLeftRight;
+  background-color:#777;
+  min-width: @mainMenuMinWidth;
+}
+#mainMenu > ul {
+  border-left:2px solid #fff;
+  height:@mainMenuHeight;
 }
 
 /* Pure CSS nested dropdown menu*/
 ul.nested-nav, ul.nested-nav li { margin:0px; padding:0px; }
-ul.nested-nav li {float:left; display:inline; cursor:pointer; list-style:none; padding:0px 10px 0px 10px; position:relative; line-height:30px; }
-ul.nested-nav.nested-nav-root>li:hover>ul.nested-nav {left:-1px; top:100%;}
+ul.nested-nav li {float:left; display:inline; cursor:pointer; list-style:none; padding:0 10px; border-right:2px solid #fff; position:relative; line-height:40px; height:@mainMenuHeight; width:@mainMenuItemWidth; }
+ul.nested-nav li.active {background-color:#62a0a1}
+ul.nested-nav.nested-nav-root>li:hover>ul.nested-nav {left:0; top:100%;}
 
-ul.nested-nav li, ul.nested-nav li>a {color:#e11; text-decoration:none;}
-ul.nested-nav li>a {display:block; width:inherit; height:inherit;}
-ul.nested-nav ul.nested-nav li { width:100%; text-indent:10px; line-height:30px; margin-right:10px; background-color:#eec;}
+ul.nested-nav li, ul.nested-nav li>a {color:#fff; text-decoration:none;}
+ul.nested-nav li>a {display:block; width:inherit; height:inherit; padding-left:10px;}
+ul.nested-nav ul.nested-nav li { width:100%; margin-right:10px; border-top:2px solid #fff; background-color:#777;}
 
 .nested-nav-root ul.nested-nav { display:none; }
-ul.nested-nav li:hover > a, ul.nested-nav li:hover { color:#eec !important; background-color:#e11 !important; }
-ul.nested-nav li:hover > ul.nested-nav { display:block; position:absolute; width:200px; top:0px; left:50%; z-index:1000; } 
+ul.nested-nav li:hover > a, ul.nested-nav li:hover { color:#fff !important; background-color:#005580 !important; }
+ul.nested-nav li:hover > ul.nested-nav { display:block; position:absolute; width:@mainMenuItemWidth; top:-2px; left:101%; z-index:1000; } 
 ul.nested-nav li:hover { position:relative; z-index:2000; } 
 
 
 #content {
   padding: 20px @paddingLeftRight;
+  background: rgba(255,255,255,0.1) url(/images/bg_content.png) no-repeat 90% 90%;
 }
 
 label {
   display: block;
 }
 
-div.user-info {
-  float: right;
-  margin: 5px 5px 0;
+p.user-info {
+  display: inline;
+  margin: 0 15px 0 0;
 }

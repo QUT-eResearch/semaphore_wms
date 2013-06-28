@@ -1,10 +1,19 @@
 <% 
-var subtitle = title ? ' - ' + title : ''
+var subtitle = title ? ' - ' + title : '';
+var menuItems = [
+  { text:'Home', href:'/' },
+  { text:'Models', href:_.url.action('experiment.ui') },
+  { text:'Tools', href:'/tools', items:[
+      { text:'Using Kepler', href:'/kepler' },
+      { text:'Excel Addins', href:'/excel' }
+    ] },
+  { text:'Contact Us', href: '/contact' }
+];
 %>
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Semaphore<%=subtitle %></title>
+    <title>Semaphore<%=subtitle%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" />
@@ -25,24 +34,40 @@ var subtitle = title ? ' - ' + title : ''
   <div id="pageContainer" class="table-layout">
     <div class="table-layout-row">
       <header>
-        <a href="/">
-        <h1>SEMAPHORE</h1>
-        </a>
-        <h2>experiment sharing and automation portal</h2>
-        <% if (_user) { %>
-        <div class="user-info">
-          <p>Logged in as: <%=_user.username%> - <a href="<%=_.url.action('auth.logout')%>">logout</a></p>
-        </div>
-        <% } %>
-        <div id="mainMenu">
-          <ul class="nested-nav nested-nav-root">
-            <li><a href="<%=_.url.action('experiment.ui')%>">Online Experiment</a></li>
-            <li><a href="/api">Modelling APIs</a></li>
-            <li><a href="/kepler">Kepler Samples</a></li>
-            <li><a href="/excel">Other Tools</a></li>
-          </ul>
+        <a href="/"><img src="/images/header.png" alt="SEMAPHORE"/></a>
+        <div class="pull-right">
+          <p class="user-info">
+          <% if (_user) { %>
+            Logged in as: <%=_user.username%> - <a href="<%=_.url.action('auth.logout')%>">LOG OUT</a>
+          <% } else { %>
+            <a href="<%=_.url.action('auth.login')%>">LOG IN</a>
+          <% } %>
+          </p>
+          <form class="form-search input-append">
+            <input class="" id="searchTextBox" name="text" type="text"/>
+            <button class="btn" type="button"><i class="icon-search"></i></button>
+          </form>
         </div>
       </header>
+      <div id="mainMenu">
+        <ul class="nested-nav nested-nav-root">
+          <% menuItems.forEach(function(mi) { %>
+          <%   var cls = mi.href === _path ? 'active' : '' %>
+          <%   if (mi.items) mi.items.forEach(function(mi) { if (mi.href === _path) cls = 'active' }) %>
+          
+          <li class="<%=cls%>"><a href="<%=mi.href%>"><%=mi.text%></a>
+            <% if (mi.items) { %>
+            <ul class="nested-nav">
+              <% mi.items.forEach(function(mi) { %>
+              <li><a href="<%=mi.href%>"><%=mi.text%></a></li>
+              <% }) %>
+            </ul>
+            <% } %>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+      <p><%=_controllerName%></p>
     </div> <!--.table-layout-row-->
     <div class="table-layout-row expand">
       <div id="content" class="table-layout-col expand">
@@ -53,7 +78,8 @@ var subtitle = title ? ' - ' + title : ''
       <footer>
         <p>Supported By: </p>
         <a id="logoQut" class="logo" href="http://www.qut.edu.au" title="Link to QUT home page">QUT</a>
-        <a id="logoAnds" class="logo" href="http://www.ands.org.au" title="Link to QUT home page">ANDS</a>
+        <a id="logoAnds" class="logo" href="http://www.ands.org.au" title="Link to ANDS home page">ANDS</a>
+        <a id="logoAceas" class="logo" href="http://www.aceas.org.au" title="Link to ACEAS home page">ACEAS</a>
       </footer>
     </div> <!--.table-layout-row-->
   </div> <!--.table-layout-->

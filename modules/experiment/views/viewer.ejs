@@ -1,0 +1,63 @@
+<% 
+var subtitle = title ? ' - ' + title : ''; 
+var url = '/exps/' + path;
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Semaphore<%=subtitle%></title>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/stylesheets/app.css" />
+  <link rel="stylesheet" href="<%=_.url.action('static')+'/experiment.css'%>" />
+  <!--[if lt IE 9]>  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script> <![endif]-->	
+</head>
+
+<body>
+
+<div>
+  <dl class="dl-horizontal">
+    <dt>Experiment:</dt>
+    <dd><%=expName%></dd>
+    <% if (category==='input') { %>
+    <dt>Input:</dt>
+    <dd>File name: <%=filename%> - Revision date:<%=new Date(verId)%></dd>
+    <% } else if (category==='output') { %>
+    <dt>Output:</dt>
+    <dd>Run: <%=runName%> - File name: <%=filename%></dd>
+    <% } %>
+    <dt>Location:</dt>
+    <dd><a href="<%=url%>"><%=url%></a></dd>
+  </dl>
+  <div class="data-viewer">
+    <% if (data['text']) { %>
+      <pre><%=data['text']%></pre>
+    <% } %>
+    <% if (data['table']) { %>
+      <% var arr = data['table']; %>
+      <table class="table table-condensed">
+        <tr>
+          <% arr[0].forEach(function(col) { %>
+            <th><%=col%></th>
+          <% }) %>
+        </tr>
+      <% for (var i=1; i<arr.length; ++i) { %>
+        <% var row = arr[i]; %>
+        <tr>
+        <% if (row.forEach) { %>
+          <% row.forEach(function(col) { %>
+            <td><%=col%></td>
+          <% }) %>
+        <% } else { %>
+          <td><%=row%></td>
+        <% } %>
+        </tr>
+      <% } %>
+      </table>
+    <% } %>
+  </div>
+</div>
+
+
+</body>
+</html>

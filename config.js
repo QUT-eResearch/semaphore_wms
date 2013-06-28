@@ -40,6 +40,8 @@ c.paths.tempUpload = path.join(c.paths.baseData, 'upload/');;
 c.paths.views = 'views';
 c.paths.statics = ['public'];
 
+c.executorUrl = 'http://semaphore.n2o.net.au/ws/executor/api/v0.2/jobs';
+
 c.homeModule = 'main';
 c.adminModule = 'admin';
 c.modules = {};
@@ -55,19 +57,20 @@ c.modules[''] = {
 };
 c.modules['auth'] = { 
   route:'', 
-  priority:0,
+  priority:10,
   login:'/login', 
   logout:'/logout',
   secure: [
-//    { module:'admin', authorize:'admin.authorize', routes:['all *'] }
-//   , { module:'main', routes:['experiment.*']}
+    { module:'admin', authorize:'admin.authorize', routes:['all *'] }
+   , { module:'main', routes:['experiment.*']}
   ],
   authenticate: 'user.authenticate'
 };
-c.modules['admin'] = { route:'/admin', priority:1 };
-c.modules['admin.user'] = { dummySessionUser:{username:'admin', password:'admin'} };
-c.modules['main'] = { route:'/', priority:2 };
-c.modules['experiment'] = { route:'exps', priority:3, parent:'main' };
+c.modules['websocket'] = { route:'/websocket', priority:0 };
+c.modules['admin'] = { route:'/admin', priority:20 };
+c.modules['admin.user'] = { /*dummySessionUser:{username:'admin', password:'admin'}*/ };
+c.modules['main'] = { route:'/', priority:30 };
+c.modules['experiment'] = { route:'exps', priority:31, storage: {auth:c.nectarAuth, container:'Semaphore.Experiments'}, executorUrl:c.executorUrl };
 
 c.getPathToJobDataFile = function(jobId, fileName) {
   return path.join(c.pathJobData, jobId, fileName)
@@ -83,8 +86,5 @@ c.jobTypes = {
 };
 
 c.str = {};
-c.str.paramJsonInput = 'JsonInput';
-c.str.paramJsonInputFiles = 'JsonInputFiles';
-c.str.paramInputFiles = 'InputFiles';
 
 module.exports = c;

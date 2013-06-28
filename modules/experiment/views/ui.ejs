@@ -1,9 +1,5 @@
 <% _.style(_.url.action('static')+'/experiment.css') %>
 
-<script>
-  //$.get('http://semaphore.n2o.net.au/exps?format=json', function(data){console.log(data)});
-</script>
-
 <div data-ng-app="experiment">
 
 <div class="navbar navbar-static-top">
@@ -44,7 +40,7 @@
   <h2>All Experiments </h2>
   <table class="table table-hover">
     <tr><th>Name</th><th>Description</th><th>Type</th><th>Keywords</th><th>Geographical Coverage</th><th>Temporal Coverage</th></tr>
-    <tr ng-repeat="experiment in experiments">
+    <tr data-ng-repeat="experiment in experiments">
       <td><a href="#/{{experiment._id}}">{{experiment.name}}</a></td>
       <td>{{experiment.desc}}</td>
       <td>{{experiment.workflow.name}}</td>
@@ -74,31 +70,31 @@
         <form name="expMetaForm">
           <div>
             <div class="pull-right">
-              <button ng-click="save()" ng-disabled="isClean() || expMetaForm.$invalid" class="btn btn-primary">Save</button>
-              <a href="javascript:window.history.back()" class="btn">Cancel</a>
-              <button ng-click="destroy()" ng-show="experiment.id" class="btn btn-danger">Delete</button>
+              <button data-ng-click="save()" data-ng-disabled="isClean() || expMetaForm.$invalid" class="btn btn-primary">Save</button>
+              <button onclick="window.history.back()" class="btn">Cancel</button>
             </div>
             <h4 data-ng-show="experiment==null">New Experiment</h4>
             <h4 data-ng-show="experiment!=null">Edit Experiment</h4>
           </div>
           <br/>
           <div class="well well-small">
-            <input type="hidden" name="_id" ng-model="experiment._id" />
-            <div class="control-group" ng-class="{error: expMetaForm.name.$invalid}">
+            <input type="hidden" name="_id" data-ng-model="experiment._id" />
+            <div class="control-group" data-ng-class="{error: expMetaForm.name.$invalid}">
               <label for="name">Name</label>
-              <input class="span10" type="text" name="name" ng-model="experiment.name" required />
-              <span ng-show="expMetaForm.name.$error.required" class="help-inline">Required</span>
+              <input class="span10" type="text" name="name" data-ng-model="experiment.name" required />
+              <span data-ng-show="expMetaForm.name.$error.required" class="help-inline">Required</span>
+              <label for="workflow">Model Type</label>
+              <select class="span10" name="workflow" data-ng-options="wf._id as wf.name for wf in workflows" data-ng-model="experiment.workflow" required></select>
+              <span data-ng-show="expMetaForm.workflow.$error.required" class="help-inline">Required</span>
             </div>
-            <label for="workflow">Type</label>
-            <select  class="span10" name="workflow" ng-options="wf._id as wf.name for wf in workflows" ng-model="experiment.workflow"></select>
             <label for="desc">Description</label>
-            <textarea class="span10" name="desc" ng-model="experiment.desc"></textarea>
+            <textarea class="span10" name="desc" data-ng-model="experiment.desc"></textarea>
             <label for="keywords">Keywords</label>
-            <input class="span10" type="text" name="keywords" ng-model="experiment.keywords" ng-list/>
+            <input class="span10" type="text" name="keywords" data-ng-model="experiment.keywords" data-ng-list/>
             <label for="geocov">Geographic Coverage</label>
-            <input class="span10" type="text" name="geocov" ng-model="experiment.geocov"/>
+            <input class="span10" type="text" name="geocov" data-ng-model="experiment.geocov"/>
             <label for="tempcov">Temporal Coverage</label>
-            <input class="span10" type="text" name="tempcov" ng-model="experiment.temcov"/>
+            <input class="span10" type="text" name="tempcov" data-ng-model="experiment.temcov"/>
           </div>
         </form>
       </div> <!-- span6 -->
@@ -112,49 +108,49 @@
       <div class="span12">
         <div class="pull-right">
           <a href="#/{{experiment._id}}/edit" class="btn btn-primary"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>
-          <a href="#/{{experiment._id}}/delete" class="btn btn-primary"><i class="icon-white icon-remove"></i>&nbsp;Delete</a>
+          <a data-ng-click="destroy()" class="btn btn-danger"><i class="icon-white icon-remove"></i>&nbsp;Delete</a>
         </div>
         <h4>Experiment {{experiment.name}}</h4>
       </div>
     </div>
     <div class="row-fluid"> 
       <div class="span4">
-        <div class="well well-small"> 
+        <div id="panelMetadata" class="well well-small"> 
           <h5>Metadata</h5>
           <dl>
             <dt>Name</dt>
             <dd>{{experiment.name}}</dd>
-            <dt>Type</dt>
+            <dt>Model Type</dt>
             <dd>{{experiment.workflow.name}}</dd>
             <dt>Description</dt>
             <dd>{{experiment.desc}}</dd>
-            <dt>Keywords</dt>
-            <dd>{{experiment.keywords.join(', ')}}</dd>
-            <dt>Geographic Coverage</dt>
-            <dd>{{experiment.geocov}}</dd>
-            <dt>Temporal Coverage</dt>
-            <dd>{{experiment.temcov}}</dd>
+            <dt data-ng-show="experiment.keywords.length">Keywords</dt>
+            <dd data-ng-show="experiment.keywords.length">{{experiment.keywords.join(', ')}}</dd>
+            <dt data-ng-show="experiment.geocov">Geographic Coverage</dt>
+            <dd data-ng-show="experiment.geocov">{{experiment.geocov}}</dd>
+            <dt data-ng-show="experiment.temcov">Temporal Coverage</dt>
+            <dd data-ng-show="experiment.temcov">{{experiment.temcov}}</dd>
           </dl>
         </div>
       </div> <!--span4-->
       <div class="span4">
         <div id="panelInputFiles" class="well well-small">
-          <button class="btn btn-primary pull-right" ng-click="open()"><i class="icon-white icon-plus-sign"></i>&nbsp;Add</button>
+          <button class="btn btn-primary pull-right" data-ng-click="openAddInput()"><i class="icon-white icon-plus-sign"></i>&nbsp;Add</button>
           <h5>Input Files</h5>
           <table class="table">
             <thead>
-              <tr><th><input type="checkbox" ng-model="masterSelect" ng-change="selectAllFiles()"/></th><th>File Name<br/>Revision (Year-Month-Day)</th><th></th></tr>
+              <tr><th><input type="checkbox" data-ng-model="masterSelect" data-ng-change="selectAllFiles()"/></th><th>File Name<br/>Revision (Year-Month-Day)</th><th></th></tr>
             </thead>
             <tbody>
-            <tr ng-repeat="file in experiment.files">
-              <td><input type="checkbox" ng-model="selectedInputFiles[$index]"/></td>
+            <tr data-ng-repeat="file in experiment.files">
+              <td><input type="checkbox" data-ng-model="file.selected"/></td>
               <td>
                 {{file.name}} <br/>
-                <select name="version" ng-options="ver.label for ver in file.versions" ng-model="file.version"></select>
+                <select name="version" data-ng-options="ver.label for ver in file.versions" data-ng-model="file.version"></select>
               </td>
               <td>
-                <a data-ng-href="{{file.getUrl()}}" target="_blank" title="Download"><i class="icon-download"></i></a>&nbsp;
-                <a data-ng-click="viewInput(file)" title="View"><i class="icon-eye-open"></i></a>&nbsp;
+                <a data-ng-href="{{createInputUrl(file.name, file.version.id, file.version.url)}}" target="_blank" title="Download"><i class="icon-download"></i></a>&nbsp;
+                <a data-ng-href="{{createInputViewUrl(file.name, file.version.id)}}" target="_blank" title="View"><i class="icon-eye-open"></i></a>&nbsp;
                 <a data-ng-click="removeInput(file)" title="Delete"><i class="icon-remove"></i></a>&nbsp;
               </td>
             </tr>
@@ -168,21 +164,24 @@
           <form>
             <fieldset><legend>Create new run</legend>
             <label for="runName">Name (optional): </label>
-            <input type="text" name="runName" ng-model="newRun.name" placeholder="{{newRun.defName}}"/>
+            <input type="text" name="runName" data-ng-model="newRun.name" placeholder="{{newRun.defName}}"/>
             <label for="runDesc">Description (optional): </label>
-            <textarea name="runDesc" ng-model="newRun.desc"></textarea>
+            <textarea name="runDesc" data-ng-model="newRun.desc"></textarea>
             <br/>
-            <button class="btn btn-primary" data-ng-click="run()"><i class="icon-white icon-play"></i>&nbsp;Run Experiment</button>
+            <button class="btn btn-primary" data-ng-click="run()" data-ng-disabled="isRunWaiting"><i class="icon-white icon-play"></i>&nbsp;Run Experiment</button>
             </fieldset>
           </form>
           <h6>Run History</h5>
           <table class="table table-condensed">
             <thead>
-              <tr><th>Timestamp</th><th>Name</th><th>Status</th></tr>
+              <tr><th>Run at</th><th>Name</th><th>Status</th><th></th></tr>
             </thead>
             <tbody>
-            <tr ng-repeat="run in experiment.runs">
-              <td>{{run.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</td><td><a title="{{run.desc}}" data-ng-click="openViewRun(run)">{{run.name}}</a></td><td>{{run.status}}</td>
+            <tr data-ng-repeat="run in experiment.runs">
+              <td>{{run.timestart | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td><a title="{{run.desc}}" data-ng-click="openViewRun(run)">{{run.name}}</a></td>
+              <td>{{run.status}}</td>
+              <td><a data-ng-show="run.status=='end' || run.status=='error'" data-ng-click="removeRun($index)" title="Delete"><i class="icon-remove"></i></a></td>
             </tr>
             </tbody>
           </table>    
@@ -190,24 +189,24 @@
       </div>
     </div> <!--row-fluid-->
   </div>
-  <div id="panelAddInput" modal="modalAddInput" close="close()" options="opts">
+  <div id="panelAddInput" modal="modalAddInput" close="closeAddInput()" options="opts">
     <div class="modal-header"><h4>Add Input File</h4></div>
     <div class="modal-body">
       <p>Upload an existing file.</p>
       <div class="btn-group">
-        <button type="button" class="btn btn-info" ng-model="uploadType" btn-radio="'localUpload'" title="Upload file in local computer">Local upload</button>
-        <button type="button" class="btn btn-info" ng-model="uploadType" btn-radio="'remoteUpload'" title="Upload file in remote computer">Remote upload</button>
+        <button type="button" class="btn btn-info" data-ng-model="uploadType" btn-radio="'localUpload'" title="Upload file in local computer">Local upload</button>
+        <button type="button" class="btn btn-info" data-ng-model="uploadType" btn-radio="'remoteUpload'" title="Upload file in remote computer">Remote upload</button>
       </div>      
-      <form ng-upload action="/exps/{{experiment._id}}/uploadInput" data-ng-show="uploadType=='localUpload'"> 
+      <form data-ng-upload action="{{urlUploadInput}}" data-ng-show="uploadType=='localUpload'"> 
         <input type="hidden" name="uploadType" value="localUpload"/>
         <label for="inputFiles">Upload File: </label>
         <input type="file" name="inputFiles" multiple></input><br/>
         <div id="selectedInputFiles" data-ng-show="files">
           <p><strong>Selected File(s):</strong></p>
-          <ul class="unstyled"><li ng-repeat="f in files">{{f.name}}</li></ul>
+          <ul class="unstyled"><li data-ng-repeat="f in files">{{f.name}}</li></ul>
         </div>
         <div data-ng-show="uploading">Uploading files.. Please wait..</div>        
-        <input class="btn btn-primary" type="submit" value="Upload" upload-submit="results(content, completed)" ng-disabled="isFileSelected()"></input>
+        <input class="btn btn-primary" type="submit" value="Upload" upload-submit="results(content, completed)" data-ng-disabled="isFileSelected()"></input>
       </form>
       <form name="formUploadRemote" data-ng-show="uploadType=='remoteUpload'"> 
         <label for="filename">File name: </label>
@@ -220,15 +219,48 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-warning cancel" ng-click="close()">Close</button>
+      <button type="button" class="btn btn-warning cancel" data-ng-click="closeAddInput()">Close</button>
     </div>
   </div>
-  <div id="panelViewRun" modal="modalViewRun" close="closeViewRun()" options="opts">
+  <div id="panelViewRun" modal="modalViewRun" close="closeViewRun()" options="dialogOptsRun">
     <div class="modal-header"><h4>{{expRun.name}}</h4></div>
     <div class="modal-body">
+      <p>{{expRun.desc}}</p>
+      <dl class="dl-horizontal">
+        <dt>Status:</dt>
+        <dd>{{expRun.status}}</dd>
+        <dt>Start at:</dt>
+        <dd>{{expRun.timestart}}</dd>
+        <dt>Finish at:</dt>
+        <dd>{{expRun.timefinish}}</dd>
+      </dl>
+      <div class="row-fluid">
+        <div class="span6">
+          <h5>Input</h5>
+          <div class="list-run-files">
+            <ul class="unstyled">
+              <li data-ng-repeat="file in expRun.infiles" >
+                <a data-ng-href="{{createInputViewUrl(file.name, file.versionId)}}" target="_blank" title="View"><i class="icon-eye-open"></i></a>&nbsp;
+                <a data-ng-href="{{createInputUrl(file.name, file.versionId)}}" target="_blank" title="Download">{{file.name}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span6">
+          <h5>Output</h5>
+          <div class="list-run-files">
+            <ul class="unstyled">
+              <li data-ng-repeat="file in expRun.outfiles" >
+                <a data-ng-href="{{createOutputViewUrl(file.name, expRun)}}" target="_blank" title="View"><i class="icon-eye-open"></i></a>&nbsp;
+                <a data-ng-href="{{urlBase + file.url}}" target="_blank" title="Download">{{file.name}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-warning cancel" ng-click="closeViewRun()">Close</button>
+      <button type="button" class="btn btn-warning cancel" data-ng-click="closeViewRun()">Close</button>
     </div>
   </div>  
   
@@ -241,19 +273,35 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.2.0/ui-bootstrap-tpls.js"></script>
 <script type="text/javascript" src="/scripts/angular-ui-router.min.js"></script>
 <script type="text/javascript" src="/scripts/ng-upload.min.js"></script>
+<script type="text/javascript" src="//cdn.sockjs.org/sockjs-0.3.min.js"></script>
+<script type="text/javascript">
+  var urlUploadInput = "<%=_.url.action('uploadInput')%>";
+  var urlDownloadInput = "<%=_.url.action('downloadInput')%>";
+  var urlDataViewer = "<%=_.url.action('dataViewer')%>";
+  var urlShow = "<%=_.url.action('show')%>";
+  var urlWorkflowShow = "<%=_.url.action('workflowShow')%>";
+  var urlAddRun = "<%=_.url.action('addRun')%>";
+  var urlBase = "<%=_.url.action('list')%>" + '/';
+  //var urlWebsocket = "<%=_.url.module('websocket')%>";
+</script>
 
 <script>
-function findById(arr, id) {
+// workaround for firefox to stop esc key from disconnecting websocket
+window.addEventListener('keydown', function(e) { (e.keyCode == 27 && e.preventDefault()) })
+
+function indexOfById(arr, id) {
   for (var i=0; i<arr.length; ++i) {
-    if (arr[i]._id == id) return arr[i];
+    if ((arr[i]._id == id) || (arr[i].id == id)) return i;
   }
+}
+function findById(arr, id) {
+  return arr[indexOfById(arr, id)];
 }
 function findByAttr(attr,a, id) {
   for (var i=0; i<a.length; i++) {
     if (a[i][attr] == id) return a[i];
   }
 }
-
 function findMultipleById(a, id) {
 var temp = Array();
   for (var i=0; i<a.length; i++) {
@@ -261,50 +309,68 @@ var temp = Array();
   }
   return temp;
 }
+function findInputFileByName(files, filename) {
+  for (var i=0; i<files.length; ++i) {
+    if (files[i].name == filename) return files[i];
+  }
+}
+
+function createInputUrl(expId, filename, versionId, url) {
+  if (url) return url;
+  var params = [versionId, filename, expId];
+  return urlDownloadInput.replace(/:\w+/g, function(){ return params.pop() });
+}
+
+function processFiles(filter, exp, updatedFiles) {
+  var files = updatedFiles || exp.files;
+  angular.forEach(files, function(file) {
+    file.selected = true;
+    file.version = file.versions[file.versions.length-1];
+    angular.forEach(file.versions, function(ver, i) {
+      ver.label = '' + (i+1) + ' (' + filter('date')(ver.id, 'yyyy-MM-dd HH:mm:ss') + ')';
+    });
+  });
+  if (updatedFiles) exp.files = files;
+}
+function createNewRun(exp) {
+  var defName = 'Run ' + (exp.runs.length + 1);
+  return {defName:defName, name:'', desc:'', infiles:{}};
+}
 
 function expController($scope, $state, Experiment) {
   $scope.experiments = Experiment.query();
+  $scope.urlBase = urlBase;
 }
 
-function createInputUrl(file, expId) {
-//  if (file.version.url) return file.version.url;
-  return '/exps/' + expId + '/input/' + file.name + '/' + file.version.id;
-}
-
-function expShowController($scope, $filter, $http, $stateParams, Experiment) {
-  function processFiles(files) {
-    angular.forEach(files, function(file) {
-      file.version = file.versions[file.versions.length-1];
-      file.getUrl = function() {
-        return createInputUrl(this, $scope.experiment._id);
-      };
-      angular.forEach(file.versions, function(ver, i) {
-        ver.label = '' + (i+1) + ' (' + $filter('date')(ver.id, 'yyyy-MM-dd HH:mm:ss') + ')';
-      });
-    });
-    return files;
-  }
-  function createNewRun() {
-    var defName = 'Run ' + ($scope.experiment.runs.length + 1);
-    $scope.newRun = {defName:defName};
-  }
-  
+function expShowController($scope, $state, $filter, $http, $stateParams, websocket, Experiment) {
   $scope.experiment = Experiment.get({id:$stateParams.expId}, function(){
-    processFiles($scope.experiment.files);
-    var defName = 'Run ' + ($scope.experiment.runs.length + 1);
-    createNewRun();
-    $scope.selectedInputFiles = $scope.experiment.files.map(function(){return false;});
+    var id = $scope.experiment._id;
+    processFiles($filter, $scope.experiment);
+    $scope.newRun = createNewRun($scope.experiment);
+    $scope.urlUploadInput = urlUploadInput.replace(/:\w+/, id);
+    $scope.urlAddRun = urlAddRun.replace(/:\w+/, id);
+    $scope.createInputUrl = function(filename, versionId, url) {
+      return createInputUrl(id, filename, versionId, url);
+    };
+    $scope.createInputViewUrl = function(filename, versionId) {
+      return urlDataViewer + '?category=input&expId=' + id + '&expName=' + encodeURIComponent($scope.experiment.name) + '&filename=' + encodeURIComponent(filename) + '&verId=' + versionId;
+    };
+    $scope.createOutputViewUrl = function(filename, run) {
+      return urlDataViewer + '?category=output&expId=' + id + '&expName=' + encodeURIComponent($scope.experiment.name) + '&filename=' + encodeURIComponent(filename) + '&runId=' + run._id + '&runName=' + run.name;
+    };
+    websocket.onMessage('experiment:'+id+'/runStatus', updateRunStatus);
   });
+  websocket.clear();
   
   $scope.remote = {};
   $scope.formUploadRemote = {};
-  $scope.masterSelect = false;
+  $scope.masterSelect = true;
   $scope.selectAllFiles = function() {
-    $scope.selectedInputFiles.forEach(function(val, index, arr){
-      arr[index] = $scope.masterSelect;
+    $scope.experiment.files.forEach(function(file){
+      file.selected = $scope.masterSelect;
     });
   };
-  $scope.viewInput = function(file) {
+  $scope.viewTextFile = function(file) {
     console.log(file);
   };
   $scope.removeInput = function(file) {
@@ -312,7 +378,10 @@ function expShowController($scope, $filter, $http, $stateParams, Experiment) {
     $http.delete(file.getUrl())
     .success(function(data){
       //console.log(data);
-      $scope.experiment.files = processFiles(data);
+      processFiles($filter, $scope.experiment, data);
+    })
+    .error(function(data) {
+      alert(data);
     });
   };
   
@@ -320,20 +389,20 @@ function expShowController($scope, $filter, $http, $stateParams, Experiment) {
     $scope.uploading = true;
     $scope.remote.uploadType = uploadType;
     console.log($scope.remote);
-    $http.post('/exps/'+$scope.experiment._id+'/uploadInput', $scope.remote)
+    $http.post($scope.urlUploadInput, $scope.remote)
     .success(function(data){
       console.log(data);
-      $scope.experiment.files = processFiles(data);
+      processFiles($filter, $scope.experiment, data);
       $scope.uploading = false;
       $scope.modalAddInput = false;
       $scope.remote = {};
     });
   };
   
-  $scope.open = function () {
+  $scope.openAddInput = function () {
     $scope.modalAddInput = true;
   };
-  $scope.close = function () {
+  $scope.closeAddInput = function () {
     //$scope.closeMsg = 'I was closed at: ' + new Date();
     $scope.modalAddInput = false;
     $scope.files = null;
@@ -341,6 +410,11 @@ function expShowController($scope, $filter, $http, $stateParams, Experiment) {
   $scope.opts = {
     backdropFade: true,
     dialogFade:true
+  };
+  $scope.dialogOptsRun = {
+    backdropFade: true,
+    dialogFade:true,
+    dialogClass: 'panelViewRun modal'
   };
   //console.log($('input[type="file"]'));
   $(document).on('change', 'input[type="file"]', function() {
@@ -357,7 +431,7 @@ function expShowController($scope, $filter, $http, $stateParams, Experiment) {
     if (completed && content.length > 0) {
       var files = JSON.parse(content);
       //console.log(files); // process content
-      $scope.experiment.files = processFiles(files);
+      processFiles($filter, $scope.experiment, files);
       $scope.uploading = false;
       $scope.modalAddInput = false;
     } else {
@@ -371,17 +445,54 @@ function expShowController($scope, $filter, $http, $stateParams, Experiment) {
   
   console.log('create run');
   $scope.run = function() {
-    var name = $scope.newRun.name || $scope.newRun.defName;
-    $scope.experiment.runs.push({timestamp:Date.now(), name:name, desc:$scope.newRun.desc, status:'run'});
-    createNewRun();
+    $scope.newRun.name = $scope.newRun.name || $scope.newRun.defName;
+    $scope.isRunWaiting = true;
+    $scope.experiment.files.forEach(function(file) {
+      if (file.selected) $scope.newRun.infiles[file.name] = file.version.id;
+    });
+    $http.post($scope.urlAddRun, $scope.newRun)
+    .success(function(run){
+      $scope.experiment.runs.push(run);
+      $scope.newRun = createNewRun($scope.experiment);
+      $scope.isRunWaiting = false;
+    });
+  };
+  $scope.removeRun = function(runIndex){
+    var run = $scope.experiment.runs[runIndex];
+    var url = $scope.urlAddRun+'/'+run._id;
+    $http.delete(url)
+    .success(function(){
+      $scope.experiment.runs.splice(runIndex, 1);
+    });
   };
   $scope.openViewRun = function(run) {
     $scope.expRun = run;
+    console.log(run._id);
     $scope.modalViewRun = true;
+    $scope.opts.dialogClass = 'panelViewRun';
   };  
   $scope.closeViewRun = function() {
     $scope.modalViewRun = false;
-  };  
+  };
+  function updateRunStatus(run) {
+    //console.log(run._id);
+    //console.log($scope.experiment.runs);
+    var updatedRun = findById($scope.experiment.runs, run._id);
+    if (updatedRun) {
+      //console.log('ok');
+      updatedRun.status = run.status;
+      updatedRun.outfiles = run.outfiles;
+      updatedRun.errors = run.errors;
+      $scope.$apply();
+    }
+  }
+  $scope.destroy = function() {
+    $scope.experiment.$delete(function() {
+      //console.log(exp);
+      $scope.experiments.splice(indexOfById($scope.experiments, $scope.experiment._id), 1);
+      $state.transitionTo('experiments.list');
+    });  
+  };
 }
 
 function expEditController($scope, $state, $stateParams, Workflow, Experiment) {
@@ -424,13 +535,57 @@ function expNewController($scope, $state, Workflow, Experiment) {
 
 angular.module('expServices', ['ngResource'])
   .factory('Experiment', ['$resource', function($resource){
-    return $resource('/exps/:id', {id:'@_id'}, {
+    return $resource(urlShow, {id:'@_id'}, {
       update: { method:'PUT' }
     });
   }])
   .factory('Workflow', ['$resource', function($resource){
-    return $resource('/exps.wf/:id', {}, {});
+    console.log('urlWorkflowShow: %s', urlWorkflowShow);
+    return $resource(urlWorkflowShow, {}, {});
   }])
+  .factory('websocket', function($rootScope){
+    var url = window.location.protocol + '//' + window.location.host + '/websocket';
+    var sock = new SockJS(url);
+    var listeners = {};
+    var isOpen = false;
+    sock.onopen = function() {
+      for (var id in listeners) {
+        var data = {type:'register', id:id};
+        sock.send(JSON.stringify(data));
+      }
+      isOpen = true;
+    };
+    sock.onclose = function() {
+      isOpen = false;
+    };
+    sock.onmessage = function(e) {
+      if (e.type === "message") {
+        var data = JSON.parse(e.data);
+        var list = listeners[data.id];
+        if (data.type === 'message' && list && list.length > 0) {
+          list.forEach(function(listener){
+            listener(data.data);
+          });
+        }
+      }
+    };
+    return {
+      onMessage: function(id, listener) {
+        //console.log(id);
+        //console.log(isOpen);
+        if (!(id in listeners)) listeners[id] = [listener];
+        else listeners[id].push(listener);
+        if (isOpen) sock.send(JSON.stringify({type:'register', id:id}));
+      },
+      sendMessage: function(id, message) {
+        var data = {type:'message', id:id, data:message};
+        sock.send(JSON.stringify(data));
+      },
+      clear: function() {
+        listeners = {};
+      }
+    };
+  })
 ;
 angular.module('experiment', ['ui.bootstrap', 'ui.state', 'ngUpload', 'expServices'])
   .config(['$stateProvider', '$routeProvider', '$urlRouterProvider', '$locationProvider',
@@ -454,7 +609,7 @@ angular.module('experiment', ['ui.bootstrap', 'ui.state', 'ngUpload', 'expServic
         .state('experiments.show', {
           url: '/{expId}',
           templateUrl: 'experiments.show.html',
-          controller: [ '$scope', '$filter', '$http', '$stateParams', 'Experiment', expShowController]
+          controller: [ '$scope', '$state', '$filter', '$http', '$stateParams', 'websocket', 'Experiment', expShowController]
         })
         .state('experiments.edit', {
           url: '/{expId}/edit',

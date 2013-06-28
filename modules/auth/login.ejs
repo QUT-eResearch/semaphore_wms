@@ -9,15 +9,15 @@ code = code || 'default';
 %>
 
 <div class="login">
-<p><%=messages[code]%></p>
-<form id="login" name="login" method="post" action="<%=_.url.action('login')%>">
-<label for="user">Username:</label>
-<input type="text" name="user" />
-<br />
-<label for="password">Password:</label>
-<input type="password" name="password" />
-<input type="hidden" name="_redirect" value="<%=redirect%>" />
-<br />
-<button type="submit" name="submit">Submit</button>
-</form>
+  <p><%=messages[code]%></p>
+  <form id="login" name="login" method="post" action="<%=_.url.action('login')%>">
+    <label for="inputUser">Username:</label>
+    <input type="text" name="user" id="inputUser"/>
+    <br />
+    <label for="inputPassword">Password:</label>
+    <input type="password" name="password" id="inputPassword"/>
+    <input type="hidden" name="_redirect" value="<%=redirect%>" />
+    <br />
+    <button type="submit" name="submit" class="btn">Sign In</button>
+  </form>
 </div>

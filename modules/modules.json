@@ -6,5 +6,5 @@
   "auth": 3,
   "experiment": 3,
   "main": 3,
-  "main.experiment": 3
+  "websocket": 3
 }

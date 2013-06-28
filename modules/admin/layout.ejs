@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>Semaphore Admin - <%=title%></title>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/stylesheets/app.css" />
     <link rel="stylesheet" href="<%=_.url.action('static')%>/style.css" />
     <%- _.styles()%>
@@ -10,17 +12,19 @@
   <body>
   <div id="screenContainer">
     <header>
-      <h1>SEMAPHORE - ADMINISTRATION MODULE</h1>
-      <h2>experiment sharing and automation portal</h1>
-      <div>
-      <% if (_user) { %>
-        <p>Logged in as: <%=_user.username%> - <a href="<%=_.url.action('auth.logout')%>">Logout</a></p>
+      <a href="/"><img src="/images/header.png" alt="SEMAPHORE"/></a>
+      <h3>ADMINISTRATION</h3>
+      <div class="pull-right">
+        <p class="user-info">
+        <% if (_user) { %>
+          Logged in as: <%=_user.username%> - <a href="<%=_.url.action('auth.logout')%>">LOG OUT</a>
         <% } else { %>
-        <p>Not logged in. <a href="<%=_.url.action('loginForm')%>">Login</a> here.</p>
-      <% } %>
+          <a href="<%=_.url.action('auth.loginForm')%>">LOG IN</a>
+        <% } %>
+        </p>
       </div>
-      <%- _.partial('menu') %>
     </header>
+    <%- _.partial('menu') %>
     <div id="content">
       <%- _.partial('body') %>
     </div>

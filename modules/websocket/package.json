@@ -1,0 +1,14 @@
+{
+    "name":"websocket",
+    "version":"0.1.0",
+    "label":"Websocket",
+    "description":"Provides websocket (real-time two-way data transfer) functionality that can be used by other modules.",
+    "author":"Alvin Sebastian <a.sebastian@qut.edu.au>",
+    "homepage":"",
+    "repository":{
+        "type":"git",
+        "url":"git://github.com/QUT-IFE-eResearch/semaphore.git"
+    },
+    "route":"/websocket",
+    "main": "index.js"
+}

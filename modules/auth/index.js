@@ -14,7 +14,8 @@ function initialize(mod, manager) {
   var logoutRoute = authRoute + mod.meta('logout');
   
   var Auth = function(baseModule, authenticateCb, authorizeCb) {
-    mod.mount('post', loginRoute, {actionName:'login', module:baseModule}, login.bind(this));
+    //console.log(loginRoute);
+    mod.mount('post', loginRoute, {actionName:'login', module:baseModule}, [manager.parseBody, login.bind(this)]);
     mod.mount('get', loginRoute, {actionName:'loginForm', module:baseModule}, loginForm.bind(this)); ////!important `login` must be defined before `*`
     mod.mount('get', logoutRoute, {actionName:'logout', module:baseModule}, logout.bind(this));
     this.baseModule = baseModule;
@@ -33,6 +34,8 @@ function initialize(mod, manager) {
     var re = createPatternRegex(entityIdentifier);
     var self = this;
     self.baseModule.beforeMount(function(method, route, entity) {
+      //console.log('!!!!!!!!!!!!!!!!!!!!!!!!');
+      //console.log(entity);
       if (entity.owner !== mod && re.test(entity.toString())) mod.mount(method, route, {module:self.baseModule}, checkAuth.bind(self));
     });
   };
@@ -74,13 +77,12 @@ function createPatternRegex(word){
 
 
 function checkAuth(req, res, next) {
-  console.log('check auth');
+  //console.log('check auth');
   var user = req.session.user;
   var loginOptions = this.loginOptions;
   if (user) {
     this.authorize( user, 
       function allow(){
-        res.locals._user = user;
         next();
       },
       function deny() {
@@ -99,7 +101,6 @@ function checkAuth(req, res, next) {
 function loginForm(req, res) {
   res.locals.code = '';
   res.locals.redirect = '/';
-  res.locals._user = req.session.user;
   this.loginOptions._view = 'login';
   res.respond(this.loginOptions);
 }
@@ -110,7 +111,6 @@ function login(req, res) {
   var redirectPath = req.body._redirect || this.baseModule.routePath;
   var loginOptions = this.loginOptions;
   res.locals.redirect = redirectPath;
-  res.locals._user = req.session.user;
   if (username && password) {
     this.authenticate(username, password, function(user) {
       if (user) {
