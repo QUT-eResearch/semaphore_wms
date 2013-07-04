@@ -244,7 +244,6 @@ module.exports = function init(mod) {
    * body: {errors:[String], outputFiles:{'<filename>':'<url>'}}
    */
   c.updateRunStatus = function(req, res, next) {
-    //if (req.headers['experiment-run-token'] == '')
     var expId = req.params.id;
     var runId = req.params.runId;
     var status = req.params.status;

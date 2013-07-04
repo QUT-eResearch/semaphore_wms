@@ -1,3 +1,36 @@
 <h1>Semaphore Addins for Microsoft Excel</h1>
-<p> Download Excel addins: </p>
-<a href="https://github.com/QUT-IFE-eResearch/semaphore/blob/master/excel-addins/semaphore.xlam?raw=true">semaphore.xlam [25kB]</a>
+<p>
+This addins for Microsoft Excel provides an interface to automate importing output data from Century/Daycent modelling to Excel spreadsheets for further processing and/or visualization.
+Instead of manually opening each output file and converting it to a sheet, use this tool to import all the available output files in a specified directory with a single click. 
+Each file will be converted into a seperate sheet on the active workbook.
+</p>
+<p>
+Currently, the addins is only compatible with Windows version of Microsoft Excel.
+</p>
+
+<a class="btn btn-primary btn-large" href="https://github.com/QUT-IFE-eResearch/semaphore/blob/master/excel-addins/semaphore.xlam?raw=true">Download semaphore.xlam (25kB)</a>
+
+<h2>Installation</h2>
+<ol>
+  <li>Put the semaphore.xlam file under <code>C:\Users\[your_user_name]\AppData\Roaming\Microsoft\AddIns\</code> for Windows 7 or <code>C:\Documents and Settings\[your_user_name]\Application Data\Microsoft</code> for Windows XP
+  <li>Go to Excel Options, Add-Ins, Click Go... button. Tick the checkbox with Semaphore label, and press OK.</li>
+</ol>
+
+<h2>Usage</h2>
+<p>
+Go to Semaphore tab and click the Century/Daycent button.
+</p>
+<img class="img-polaroid" src="/static/screenshots/excel1.png"/>
+<br/><br/>
+<p>
+Choose the desired model, only Century and Daycent are currently supported.
+Choose the directory that contains all the output files (*.lis, *.out, *.csv).
+Enter the name of the .lis output file (make sure the .lis extension is omitted), or select the file using the Browse button.
+Click the Import Data button to start the process. It will take some time to import all the output files to the spreadsheets.
+</p>
+<img class="img-polaroid" src="/static/screenshots/excel2.png"/>
+<br/><br/>
+<p>
+Each output files will have its own sheet named exactly as the output file name. 
+After a model re-run (ouput files has been changed), click the Refresh Data button to update the sheets with the current output files.
+</p>

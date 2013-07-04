@@ -4,13 +4,26 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 13px arial, sans-serif;
 }
 a {
   /*color: #00B7FF;
   color: rgb(97,160,161);*/
 
   cursor: pointer;
+}
+p {
+  margin: 0 0 1.2em;
+  line-height: 1.5;
+}
+h1 {
+  font-size: 2.6em;
+}
+h2 {
+  font-size: 2.2em;
+}
+h3 {
+  font-size: 1.8em;
 }
 div#pageContainer {
   /* position:relative;  needed for footer positioning*/
@@ -21,7 +34,7 @@ div#pageContainer {
 header {
   color: #000;
   background-color: #fff;
-  padding: 30px 30px 15px;
+  padding: 30px 40px 15px;
 }
 header > div {
   margin-top: 15px;
@@ -29,7 +42,7 @@ header > div {
 /** FOOTER **/
 footer {
   overflow: hidden;
-  padding: 15px 30px;
+  padding: 15px 40px;
   border-top: 3px solid #eee;
   font-family: 'Pontano Sans', sans-serif;
   font-size: 13pt;
@@ -60,15 +73,15 @@ footer .logo {
   height: 65px;
 }
 #mainMenu {
-  font-size: 13pt;
+  font-size: 20px;
   font-family: 'Pontano Sans', sans-serif;
-  padding-left: 30px;
+  padding-left: 40px;
   background-color: #777;
   min-width: 900px;
 }
 #mainMenu > ul {
   border-left: 2px solid #fff;
-  height: 60px;
+  height: 70px;
 }
 /* Pure CSS nested dropdown menu*/
 ul.nested-nav,
@@ -84,8 +97,8 @@ ul.nested-nav li {
   padding: 0 10px;
   border-right: 2px solid #fff;
   position: relative;
-  line-height: 40px;
-  height: 60px;
+  line-height: 50px;
+  height: 70px;
   width: 200px;
 }
 ul.nested-nav li.active {
@@ -133,7 +146,7 @@ ul.nested-nav li:hover {
   z-index: 2000;
 }
 #content {
-  padding: 20px 30px;
+  padding: 10px 40px;
   background: rgba(255, 255, 255, 0.1) url(/images/bg_content.png) no-repeat 90% 90%;
 }
 label {
@@ -142,4 +155,7 @@ label {
 p.user-info {
   display: inline;
   margin: 0 15px 0 0;
+}
+div.tagline {
+  padding: 20px 0;
 }

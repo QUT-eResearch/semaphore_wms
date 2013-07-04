@@ -255,10 +255,13 @@ experimentSchema.statics.removeRun = function(expId, runId, cb) {
     if (err || !exp) return cb(err);
     var run = exp.runs.id(runId);
     //delete output files
+    //console.log(run);
     var count = run.outfiles.length;
     if (count === 0) removeReferences();
     else run.outfiles.forEach(function(file) {
-      removeOutputFile(file, function(){
+      //console.log(file);
+      //removeOutputFile(file, function(err){
+      swift.removeFile(container, file.url, function() {
         count--;
         if (count === 0) removeReferences();
       });

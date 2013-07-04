@@ -540,7 +540,7 @@ angular.module('expServices', ['ngResource'])
     });
   }])
   .factory('Workflow', ['$resource', function($resource){
-    console.log('urlWorkflowShow: %s', urlWorkflowShow);
+    //console.log('urlWorkflowShow: %s', urlWorkflowShow);
     return $resource(urlWorkflowShow, {}, {});
   }])
   .factory('websocket', function($rootScope){
