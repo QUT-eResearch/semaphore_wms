@@ -12,7 +12,7 @@ module.exports = function init(mod) {
   var c = new BasicCrud({
     model: Experiment,
     defaultFormat:'json',
-    actions: 'ui dataViewer list show create update delete workflowList workflowShow uploadInput downloadInput removeInput addRun removeRun updateRunStatus downloadOutput'
+    actions: 'ui dataViewer plot list show create update delete workflowList workflowShow uploadInput downloadInput removeInput addRun removeRun updateRunStatus downloadOutput'
   });
   
   c.ui = function(req, res) {
@@ -27,19 +27,19 @@ module.exports = function init(mod) {
     opts.expId = req.query.expId;
     opts.expName = req.query.expName;
     opts.category = req.query.category;
-    opts.filename = req.query.filename;
+    opts.filename = opts.fileName = req.query.fileName;
     if (opts.category==='input') {
-      opts.verId = req.query.verId;
-      opts.path = Experiment.getInputFilePath(opts.expId, opts.filename, opts.verId);
+      opts.verId = parseInt(req.query.verId);
+      opts.path = Experiment.getInputFilePath(opts.expId, opts.fileName, opts.verId);
     } else if (opts.category==='output') {
       opts.runId = req.query.runId;
       opts.runName = req.query.runName;
-      opts.path = Experiment.getOutputFilePath(opts.expId, opts.runId, opts.filename);
+      opts.path = Experiment.getOutputFilePath(opts.expId, opts.runId, opts.fileName);
     }
     opts._view = 'viewer';
     opts.title = 'Data Viewer';
     opts.data = {};
-    var ext = path.extname(opts.filename);
+    var ext = path.extname(opts.fileName);
     if (!ext || ext === '.bin') {
       opts.dataType = 'text';
       opts.data[opts.dataType] = 'Cannot view binary file.';
@@ -73,6 +73,14 @@ module.exports = function init(mod) {
   c.dataViewer_method = 'get';
   c.dataViewer_route = '.ui.viewer';
   c.dataViewer_format = 'html';
+  
+  c.plot = function(req, res, next) {
+    var file = Experiment.internalOutputUrl(req.params.expId, req.params.runId, req.params.filename);
+    res.respond({_view:'plot', file:file});
+  };
+  c.plot_method = 'get';
+  c.plot_route = '.ui.plot/:expId/:runId/:filename';
+  c.plot_format = 'html';
 
   c.list_filter = function(req) {
     //console.log(req.session);

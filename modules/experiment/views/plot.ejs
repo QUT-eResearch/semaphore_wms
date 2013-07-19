@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Plot of Experiment Output</title>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.2/dygraph-combined.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/stylesheets/app.css" />
+  <link rel="stylesheet" href="<%=_.url.action('static')+'/experiment.css'%>" />
+  <!--[if lt IE 9]>  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script> <![endif]-->	
+</head>
+<body style="padding:0 20px;">
+  <div id="chart" style="padding-top:20px; width:100%; height:500px;"></div>
+  <br/>
+  <div id="legend"></div>
+  <script>
+    function textToArray(text) {
+      var series = {};
+      var lines = text.split(/\r\n|\n/);
+      var colNames = lines[0].trim().split(/\s+/);
+      colNames.forEach(function(name){
+        series[name] = [];
+      });
+      for (var i = 2; i < lines.length; ++i) {
+        var cols = lines[i].trim().split(/\s+/);
+        for (var j = 0; j < cols.length; ++j) {
+          series[colNames[j]].push(parseFloat(cols[j]));
+        }
+      }
+      return series;
+    }
+    function transform(x, y1, y2) {
+      var output = [];
+      for (var i=0; i<x.length; ++i) {
+        if (x[i]) {
+          output.push([x[i], y1[i], y2[i]]);
+        }
+      }
+      return output;
+    }
+    var file = '<%=file%>';
+    $.ajax({
+      url:file, 
+      //dataType:'text',
+      success: function(data){
+        var arr = textToArray(data);
+        var g = new Dygraph(document.getElementById("chart"), 
+          transform(arr.time, arr.somsc, arr.agcacc), 
+          { labels: ['Time', 'Carbon in total soil organic matter', 'Cumulative aboveground carbon production'], title:'Plot Output', xlabel:'Time', ylabel:'Value', legend:'always', labelsDiv:'legend' }
+        );
+        //var g = new Dygraph(document.getElementById("chart"),  [[1, 75], [2, 70], [3, 80]], { labels: ['Time', 'somsc'] });
+      }
+    });
+  </script>
+
+</body>
+</html>

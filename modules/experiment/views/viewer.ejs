@@ -21,10 +21,10 @@ var url = '/exps/' + path;
     <dd><%=expName%></dd>
     <% if (category==='input') { %>
     <dt>Input:</dt>
-    <dd>File name: <%=filename%> - Revision date:<%=new Date(verId)%></dd>
+    <dd>File name: <%=fileName%> - Revision date:<%=new Date(verId)%></dd>
     <% } else if (category==='output') { %>
     <dt>Output:</dt>
-    <dd>Run: <%=runName%> - File name: <%=filename%></dd>
+    <dd>Run: <%=runName%> - File name: <%=fileName%></dd>
     <% } %>
     <dt>Location:</dt>
     <dd><a href="<%=url%>"><%=url%></a></dd>

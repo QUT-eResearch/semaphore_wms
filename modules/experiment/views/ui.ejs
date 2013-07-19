@@ -247,7 +247,9 @@
           </div>
         </div>
         <div class="span6">
-          <h5>Output</h5>
+          <h5>Output
+            <a class="pull-right" href="{{expRun.urlOutputLis}}" target="_blank"><img class="img-rounded" src="http://cdn1.iconfinder.com/data/icons/ie_Shine/24/shine_14.png" height="24" width="24"/></a>
+          </h5>
           <div class="list-run-files">
             <ul class="unstyled">
               <li data-ng-repeat="file in expRun.outfiles" >
@@ -320,6 +322,10 @@ function createInputUrl(expId, filename, versionId, url) {
   var params = [versionId, filename, expId];
   return urlDownloadInput.replace(/:\w+/g, function(){ return params.pop() });
 }
+function createRemoveInputUrl(expId, filename, versionId) {
+  var params = [versionId, filename, expId];
+  return urlDownloadInput.replace(/:\w+/g, function(){ return params.pop() });
+}
 
 function processFiles(filter, exp, updatedFiles) {
   var files = updatedFiles || exp.files;
@@ -353,10 +359,10 @@ function expShowController($scope, $state, $filter, $http, $stateParams, websock
       return createInputUrl(id, filename, versionId, url);
     };
     $scope.createInputViewUrl = function(filename, versionId) {
-      return urlDataViewer + '?category=input&expId=' + id + '&expName=' + encodeURIComponent($scope.experiment.name) + '&filename=' + encodeURIComponent(filename) + '&verId=' + versionId;
+      return urlDataViewer + '?category=input&expId=' + id + '&expName=' + encodeURIComponent($scope.experiment.name) + '&fileName=' + encodeURIComponent(filename) + '&verId=' + versionId;
     };
     $scope.createOutputViewUrl = function(filename, run) {
-      return urlDataViewer + '?category=output&expId=' + id + '&expName=' + encodeURIComponent($scope.experiment.name) + '&filename=' + encodeURIComponent(filename) + '&runId=' + run._id + '&runName=' + run.name;
+      return urlDataViewer + '?category=output&expId=' + id + '&expName=' + encodeURIComponent($scope.experiment.name) + '&fileName=' + encodeURIComponent(filename) + '&runId=' + run._id + '&runName=' + run.name;
     };
     websocket.onMessage('experiment:'+id+'/runStatus', updateRunStatus);
   });
@@ -374,8 +380,7 @@ function expShowController($scope, $state, $filter, $http, $stateParams, websock
     console.log(file);
   };
   $scope.removeInput = function(file) {
-    console.log(file.getUrl());
-    $http.delete(file.getUrl())
+    $http.delete(createRemoveInputUrl($scope.experiment._id, file.name, file.version.id))
     .success(function(data){
       //console.log(data);
       processFiles($filter, $scope.experiment, data);
@@ -466,8 +471,14 @@ function expShowController($scope, $state, $filter, $http, $stateParams, websock
     });
   };
   $scope.openViewRun = function(run) {
+    if (!run.urlOutputLis) run.outfiles.some(function(f){
+      if (f.name.indexOf('lis', f.name.length - 3) >= 0) {
+        run.urlOutputLis = '/exps.ui.plot/' + $scope.experiment._id + '/' + run._id + '/' + encodeURIComponent(f.name);
+        return true;
+      }
+    });
     $scope.expRun = run;
-    console.log(run._id);
+    //console.log(run._id);
     $scope.modalViewRun = true;
     $scope.opts.dialogClass = 'panelViewRun';
   };  
@@ -491,7 +502,7 @@ function expShowController($scope, $state, $filter, $http, $stateParams, websock
       //console.log(exp);
       $scope.experiments.splice(indexOfById($scope.experiments, $scope.experiment._id), 1);
       $state.transitionTo('experiments.list');
-    });  
+    });
   };
 }
 
