@@ -3,11 +3,13 @@ semaphore_wms
 
 Semaphore Workflow Management System is a web application to manage and run scientific experiments online. 
 Typically, an experiment involves running a computer simulation using some modelling tools. 
-To run the modelling tool, this application requires the execution service component from a seperate GitHub repository:
-https://github.com/QUT-IFE-eResearch/semaphore
+To run the modelling tool, this application requires the execution service component. The source code for the execution service is located in a seperate GitHub repository:
+https://github.com/QUT-IFE-eResearch/semaphore/tree/master/services/executor
 
 ## Documentation
 All documentation including user and developer manual can found in the Semaphore [wiki](https://github.com/QUT-IFE-eResearch/semaphore/wiki).
+To run your own service, you need to have all the prerequisite programs and libraries (NodeJS, MongoDB, Redis, Modelling tools, etc) and clone this and the [execution service](https://github.com/QUT-IFE-eResearch/semaphore/tree/master/services/executor) repositories.
+For more details, please follow the [deployment guide](https://github.com/QUT-IFE-eResearch/semaphore/wiki/Semaphore-Web-Application-Deployment-Guide) in the Semaphore wiki.
 
 ## Acknowledgment
 This project is supported by the Australian National Data Service (ANDS). 
