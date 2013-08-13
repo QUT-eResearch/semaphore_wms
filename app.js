@@ -33,14 +33,20 @@ db.once('open', function callback() {
   //console.log(process.memoryUsage());
   var manager = require('modex')(config);
   var action = process.argv[2];
-  var mods = process.argv.slice(3);
-  if (action in {'install':0, 'uninstall':0, 'enable':0, 'disable':0, 'debug-modules':0}) {
-    manager[action](mods);
-    //setTimeout(process.exit.bind(process, 0), 2000);
+  if (action in {'install':0, 'uninstall':0, 'enable':0, 'disable':0}) {
+    var mods = process.argv.slice(3);
+    manager[action](mods, function(err) {
+      if (err) logger.error(err);
+      db.close();
+    });
+  } else if (action === 'debug-modules') {
+    manager[action]();
+    db.close();
   } else {
     manager.start();
   }
 });
+
 process.on('exit', function() {
   db.close();
   logger.info('Exiting from %s', config.appName);

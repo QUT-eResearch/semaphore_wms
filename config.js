@@ -68,7 +68,9 @@ c.modules['auth'] = {
 };
 c.modules['websocket'] = { route:'/websocket', priority:0 };
 c.modules['admin'] = { route:'/admin', priority:20 };
-c.modules['admin.user'] = { /*dummySessionUser:{username:'admin', password:'admin'}*/ };
+c.modules['admin.user'] = { /*dummySessionUser:{username:'admin', password:'admin'}*/ 
+  defaultAdmin : { username:'admin', fullname:'Administrator', password:'admin' }
+};
 c.modules['main'] = { route:'/', priority:30 };
 c.modules['experiment'] = { route:'exps', priority:31, storage: {auth:c.nectarAuth, container:'Semaphore.Experiments'}, executorUrl:c.executorUrl };
 

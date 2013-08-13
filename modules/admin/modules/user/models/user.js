@@ -26,26 +26,10 @@ userSchema.statics.authenticate = function(username, password, callback) {
   });
 }
 
-userSchema.statics.install = function() {
-  var self = this;
-  self.findOne({isSuperuser:true}, function(err, docs) {
-    if (docs) console.warn('A superuser exists. Not adding a new superuser');
-    else self.create({
-        username:'admin', 
-        fullname:'Administrator', 
-        password:'admin', 
-        isSuperuser:'true'}, 
-      function(err) {
-        if (!err) console.log('Success creating a superuser.');
-        else console.log(err);
-      });
-  });
-};
-
-userSchema.statics.uninstall = function() {
-  this.collection.drop();
-  console.log('user collection dropped');
-};
+//userSchema.statics.uninstall = function() {
+//  this.collection.drop();
+//  console.log('user collection dropped');
+//};
 
 //userSchema.path('password').validate(passwordValidator, 'password must not be empty.');
 

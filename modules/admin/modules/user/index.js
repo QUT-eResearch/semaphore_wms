@@ -26,13 +26,32 @@ module.exports = exports = function(mod) {
     mod.mount('get', '/manual', dummyController); //relative
     mod.mount('get', '', 'index', index); //relative
   });
+  
+  mod.installer(function(options, done) {
+    var User = mod.model('user');
+    User.findOne({isSuperuser:true}, function(err, docs) {
+      if (err) return done(err);
+      if (docs) {
+        console.log('A superuser exists. Not adding a new superuser');
+        done();
+      } else {
+        var defaultAdmin = mod.meta('defaultAdmin');
+        defaultAdmin.isSuperuser = true;
+        User.create(defaultAdmin, function(err) {
+          if (!err) console.log('Success creating a superuser.');
+          else console.log(err);
+          done(err);
+        });
+      }
+    });
+  });
 };
 
-function index(req, res, next) {
+function index(req, res) {
   res.send('index');
 }
 
-function dummyController(req, res, next) {
+function dummyController(req, res) {
   res.send('dummy');
   //res.render('test',{});
 }
